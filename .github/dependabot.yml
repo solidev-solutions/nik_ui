@@ -33,8 +33,8 @@ updates:
       release-tools:
         patterns: ["*"]
     ignore:
-      # release-notes-generator 14 cannot render version 10 of the conventionalcommits preset.
-      - dependency-name: "conventional-changelog-conventionalcommits"
+      # No check runs these tools. A major version is raised by hand and tried with a dry run.
+      - dependency-name: "*"
         update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "pre-commit"
