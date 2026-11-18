@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Only print what the release would contain
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    environment: release
+    concurrency: release
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      # npm accepts the identity of this workflow instead of a stored token.
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: 24
+
+      # The lockfile in .github/release fixes the version of every package that runs here.
+      - name: Install semantic-release
+        working-directory: .github/release
+        run: npm ci --ignore-scripts
+
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: .github/release/node_modules/.bin/semantic-release ${{ inputs.dry_run && '--dry-run' || '' }}
