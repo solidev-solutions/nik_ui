@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   parserPreset: 'conventional-changelog-conventionalcommits',
   // By default commitlint lets titles such as "Revert ..." or "Merged ..." pass unchecked.
   defaultIgnores: false,

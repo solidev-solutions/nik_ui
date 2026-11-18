@@ -1,11 +1,11 @@
-default_stages: [pre-commit]
-
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
       - id: trailing-whitespace
       - id: check-merge-conflict
+        # Without this the hook only looks while a merge is under way, so never in a pull request.
+        args: [--assume-in-merge]
       - id: check-json
       - id: check-toml
       - id: check-yaml
@@ -22,20 +22,21 @@ repos:
         name: prettier
         language: system
         entry: npx --no-install prettier --write --ignore-unknown
-        types_or: [javascript, ts, vue, css]
+        files: '\.(vue|ts|mts|tsx|js|css)$'
 
+      # The same files eslint.config.js names.
       - id: eslint
         name: eslint
         language: system
         entry: npx --no-install eslint --max-warnings 0
-        types_or: [ts, vue]
+        files: '\.(vue|ts|mts|tsx)$'
 
       - id: type-check
         name: vue-tsc
         language: system
         entry: npx --no-install vue-tsc --noEmit
         pass_filenames: false
-        types_or: [ts, vue]
+        files: '\.(vue|ts|mts|tsx)$'
 
   - repo: local
     hooks:

@@ -23,13 +23,15 @@ jobs:
         with:
           node-version: 24
 
-      # The preset is the one the release reads commits with, see .github/release/package.json.
+      # commitlint comes from the lockfile of the release tools, with the preset the release uses.
       - name: Install commitlint
-        run: npm install --no-save --ignore-scripts @commitlint/cli@21 conventional-changelog-conventionalcommits@9
+        working-directory: .github/release
+        run: npm ci --ignore-scripts
 
       # A pull request is squashed into one commit on main, and that commit takes its title.
       # The commits inside the pull request are discarded, so only the title is checked.
       - name: Check pull request title
+        working-directory: .github/release
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
-        run: printf '%s\n' "$PR_TITLE" | npx commitlint --verbose
+        run: printf '%s\n' "$PR_TITLE" | node_modules/.bin/commitlint --verbose

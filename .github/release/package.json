@@ -1,8 +1,9 @@
 {
   "name": "nik-ui-release-tools",
   "private": true,
-  "description": "Tools the release workflow runs. They are not part of the package.",
+  "description": "Tools the release and commit title workflows run. They are not part of the package.",
   "devDependencies": {
+    "@commitlint/cli": "^21.2.4",
     "conventional-changelog-conventionalcommits": "^9.3.1",
     "semantic-release": "^25.0.9"
   }
