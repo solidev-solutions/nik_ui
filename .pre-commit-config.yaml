@@ -37,3 +37,12 @@ repos:
         entry: npx --no-install vue-tsc --noEmit
         pass_filenames: false
         files: '\.(vue|ts|mts|tsx)$'
+
+  - repo: local
+    hooks:
+      - id: no-docs
+        name: "No documentation files"
+        language: fail
+        entry: "No docs/ folder. Markdown is limited to README.md, SECURITY.md, AGENTS.md and CLAUDE.md."
+        files: '^docs/|\.md$'
+        exclude: '^(README|SECURITY|AGENTS|CLAUDE)\.md$'
