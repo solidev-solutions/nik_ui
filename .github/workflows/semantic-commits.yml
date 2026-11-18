@@ -1,0 +1,35 @@
+name: Semantic Commits
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  commitlint:
+    name: Semantic Commits
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7.0.1
+
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: 24
+
+      # The preset is the one the release reads commits with, see .github/release/package.json.
+      - name: Install commitlint
+        run: npm install --no-save --ignore-scripts @commitlint/cli@21 conventional-changelog-conventionalcommits@9
+
+      # A pull request is squashed into one commit on main, and that commit takes its title.
+      # The commits inside the pull request are discarded, so only the title is checked.
+      - name: Check pull request title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: printf '%s\n' "$PR_TITLE" | npx commitlint --verbose

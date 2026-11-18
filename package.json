@@ -1,0 +1,27 @@
+{
+  "name": "@nichtimkopf/ui",
+  "version": "0.0.0-development",
+  "private": true,
+  "description": "The theme and components of NichtImKopf, built on Nuxt UI",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solidev-solutions/nik_ui.git"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@vue/eslint-config-typescript": "^14.9.0",
+    "@vue/tsconfig": "^0.9.1",
+    "eslint": "^10.10.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-vue": "~10.11.0",
+    "prettier": "3.9.6",
+    "typescript": "~6.0.0",
+    "vue": "^3.5.42",
+    "vue-eslint-parser": "^10.4.1",
+    "vue-tsc": "^3.3.11"
+  },
+  "engines": {
+    "node": "^22.18.0 || >=24.12.0"
+  }
+}
