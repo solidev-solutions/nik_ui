@@ -4,6 +4,6 @@ version = 1
 # listed here: it names its copyright holders and its licence in its first lines, so a port
 # carries the name of its original.
 [[annotations]]
-path = ["*", ".github/**"]
+path = ["*", ".github/**", ".claude/**"]
 SPDX-FileCopyrightText = "2026 Solidev - Thomas Liska"
 SPDX-License-Identifier = "MIT"
