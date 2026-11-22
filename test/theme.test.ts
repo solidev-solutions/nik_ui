@@ -166,6 +166,12 @@ test('Nuxt UI’s configuration in the script carries a theme override', () => {
   expect(script).toContain('sm:max-w-72')
 })
 
+test('the stylesheet and the script carry the navigation menu’s override', () => {
+  // A class that nothing else names.
+  expect(css).toContain(selector('hover:before:bg-hover'))
+  expect(script).toContain('hover:before:bg-hover')
+})
+
 test('with component detection Nuxt UI keeps the looks of the components the kit renders', () => {
   // Detection is at work: the looks of the components nothing renders are left out.
   expect(detectingCss.length).toBeLessThan(css.length)

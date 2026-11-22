@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppFrame from '@nichtimkopf/ui/kit/AppFrame.vue'
+import BrandMark from '@nichtimkopf/ui/kit/BrandMark.vue'
 import UButton from '@nuxt/ui/components/Button.vue'
 </script>
 
@@ -10,7 +11,7 @@ import UButton from '@nuxt/ui/components/Button.vue'
     storage-key="fixture"
     panel-label="Details"
   >
-    <template #rail>Rail</template>
+    <template #rail><BrandMark class="w-5" /></template>
     <template #navigation>Navigation</template>
     <template #navigation-footer>Navigation footer</template>
     <template #menu>Menu</template>
