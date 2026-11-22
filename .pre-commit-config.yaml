@@ -34,9 +34,17 @@ repos:
       - id: type-check
         name: vue-tsc
         language: system
-        entry: npx --no-install vue-tsc --noEmit
+        entry: npm run typecheck
         pass_filenames: false
         files: '\.(vue|ts|mts|tsx)$'
+
+      # Builds the package, checks what would be published and builds an app that has it installed.
+      - id: package
+        name: package
+        language: system
+        entry: npm test
+        pass_filenames: false
+        files: '^(src|test)/|^(package(-lock)?\.json|(build|vitest)\.config\.ts)$'
 
   - repo: local
     hooks:
