@@ -46,6 +46,17 @@ repos:
         pass_filenames: false
         files: '^(src|test)/|^(package(-lock)?\.json|(build|vitest)\.config\.ts|tsconfig(\.[a-z]+)?\.json)$'
 
+      # Tests the library in a browser, which builds it first, then checks its types and, with the
+      # types that build generated for an app, those of the theme and the kit. The library's
+      # tsconfig names one of the generated files, so the check fails where they are missing
+      # instead of passing unchecked. Needs the browser `npx playwright install chromium` installs.
+      - id: library
+        name: library
+        language: system
+        entry: npm run library:test
+        pass_filenames: false
+        files: '^(src|library)/|^(package(-lock)?\.json|tsconfig\.json|build\.config\.ts)$'
+
   - repo: local
     hooks:
       - id: no-docs
