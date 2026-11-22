@@ -172,6 +172,23 @@ test('the stylesheet and the script carry the navigation menu’s override', () 
   expect(script).toContain('hover:before:bg-hover')
 })
 
+test('the stylesheet and the script carry the overrides of button, link and kbd', () => {
+  // Of each a class that nothing else names.
+  for (const name of ['motion-safe:transition-transform', 'decoration-dimmed', 'normal-case']) {
+    expect(css).toContain(selector(name))
+  }
+  expect(script).toContain('motion-safe:transition-transform')
+  expect(script).toContain('decoration-dimmed')
+  // The script holds the kbd's class a second time, in the list that tells conflicting classes
+  // apart: the pattern is that of the configuration.
+  expect(script).toMatch(/\bkbd:\s*\{\s*base:\s*["'`]normal-case["'`]/)
+})
+
+test('the script carries the prop defaults the app hands to UTheme', () => {
+  expect(script).toMatch(/slideover:\s*\{\s*inset:\s*(!0|true)\s*\}/)
+  expect(script).toMatch(/tooltip:\s*\{\s*delayDuration:\s*300\b/)
+})
+
 test('with component detection Nuxt UI keeps the looks of the components the kit renders', () => {
   // Detection is at work: the looks of the components nothing renders are left out.
   expect(detectingCss.length).toBeLessThan(css.length)

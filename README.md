@@ -29,6 +29,28 @@ Import the theme after Tailwind CSS and Nuxt UI in your CSS:
 @import '@nichtimkopf/ui/theme.css';
 ```
 
+Hand the theme's prop defaults to Nuxt UI's `UTheme`, around `UApp` in your `App.vue`. They are the defaults that no class can set, such as a tooltip's delay:
+
+```vue
+<script setup lang="ts">
+import { nikProps } from '@nichtimkopf/ui/theme'
+</script>
+
+<template>
+  <UTheme :props="nikProps">
+    <UApp>
+      <RouterView />
+    </UApp>
+  </UTheme>
+</template>
+```
+
+These defaults also win over what `UApp` takes for the same component, such as its `tooltip`. To change one, hand `UTheme` an object of your own with the theme's spread into it:
+
+```ts
+const props = { ...nikProps, tooltip: { ...nikProps.tooltip, delayDuration: 0 } }
+```
+
 The icons are Hugeicons, from the peer dependency `@iconify-json/hugeicons`: install it in your app, and its build bundles every icon of the theme. Name an icon by its meaning, `icon.edit`, with `icon` from `@nichtimkopf/ui/theme`.
 
 An option you set beside the theme replaces the theme's, so an app that sets `icon` itself spreads the theme's list into it:

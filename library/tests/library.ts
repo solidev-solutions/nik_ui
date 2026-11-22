@@ -23,6 +23,16 @@ export const test = base.extend<{ sameOrigin: void }>({
   ],
 })
 
+/** What a color role of the theme comes to in the page. */
+export const color = (page: Page, role: string) =>
+  page.evaluate((role) => {
+    const probe = document.body.appendChild(document.createElement('span'))
+    probe.style.color = `var(${role})`
+    const { color } = getComputedStyle(probe)
+    probe.remove()
+    return color
+  }, role)
+
 /** Opens the menu that stands for rail and navigation below 1024 px. */
 export async function openMenu(page: Page) {
   await page.getByRole('button', { name: 'Open sidebar' }).click()
