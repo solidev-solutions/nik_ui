@@ -3,9 +3,14 @@
 
 import type { NuxtUIOptions } from '@nuxt/ui/vite'
 
+import { dashboard } from './components/dashboard.js'
+import { sidebar } from './components/sidebar.js'
 import { icon, icons } from './icons.js'
 
 export const nikTheme = {
+  // With `experimental.componentDetection` Nuxt UI keeps the looks only of the components it finds
+  // in use, and it looks for the ones the kit uses only in a package named here.
+  scanPackages: ['@nichtimkopf/ui'],
   theme: {
     colors: ['primary', 'success', 'info', 'warning', 'error'],
     transitions: false,
@@ -21,6 +26,8 @@ export const nikTheme = {
       neutral: 'stone',
     } as const,
     icons,
+    sidebar,
+    ...dashboard,
   },
   icon: {
     clientBundle: {

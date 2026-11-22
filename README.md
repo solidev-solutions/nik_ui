@@ -37,6 +37,14 @@ An option you set beside the theme replaces the theme's, so an app that sets `ic
 ui({ ...nikTheme, icon: { clientBundle: { ...nikTheme.icon.clientBundle, scan: true } } })
 ```
 
+Import a component of the kit by its file, as you import one of Nuxt UI:
+
+```ts
+import AppFrame from '@nichtimkopf/ui/kit/AppFrame.vue'
+```
+
+The theme's stylesheet brings the component's classes into your CSS, so your app adds no `@source` for it.
+
 ## Contributing
 
 Pull requests target the `main` branch. Run `npm ci` and `pre-commit install` once, then the checks run on every commit.
