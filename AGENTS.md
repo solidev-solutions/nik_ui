@@ -31,4 +31,4 @@ NichtImKopf UI (`@nichtimkopf/ui`) is the theme and the component kit of the Nic
 ## Never
 
 - Never report something as tested, reproduced or checked that did not run.
-- Never bring in code from another project without reading its licence. It has to allow use under MIT, and the file keeps the name of its copyright holder.
+- Never bring in code from another project without reading its licence. It has to allow use under MIT, and the file keeps the name of its copyright holder. A font may come under the SIL Open Font License instead, with its `OFL.txt` beside it.
