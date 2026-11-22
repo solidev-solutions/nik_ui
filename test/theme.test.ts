@@ -61,3 +61,12 @@ test('the roles the stylesheet adds give classes', () => {
     expect(css).toContain(`.${name}`)
   }
 })
+
+test('the radius classes take the theme’s scale', () => {
+  expect(css).toMatch(/\.rounded-lg\s*\{\s*border-radius:\s*var\(--radius-lg\)/)
+  expect(css).toMatch(/--radius-lg:\s*0?\.625rem/)
+})
+
+test('Nuxt UI’s components come without the transitions the option turns off', () => {
+  expect(css).not.toMatch(/\.transition-colors\b/)
+})

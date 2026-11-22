@@ -6,6 +6,7 @@ import type { NuxtUIOptions } from '@nuxt/ui/vite'
 export const nikTheme = {
   theme: {
     colors: ['primary', 'success', 'info', 'warning', 'error'],
+    transitions: false,
   },
   ui: {
     // As literals: the plugin's options take `neutral` only by the name of a gray palette.
