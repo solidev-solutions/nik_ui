@@ -3,6 +3,7 @@ import { computed, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 
 import LibraryPage from '../../shell/LibraryPage.vue'
+import PageNeighbors from '../../shell/PageNeighbors.vue'
 import { sectionOf } from './sections.ts'
 
 const props = defineProps<{ section: string }>()
@@ -16,5 +17,6 @@ const parents = [{ label: area.label, to: { name: area.id } }]
 <template>
   <LibraryPage :title="section.label" :parents="parents">
     <component :is="page" />
+    <PageNeighbors />
   </LibraryPage>
 </template>
