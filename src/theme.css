@@ -187,6 +187,11 @@
   --ui-category-hover: 90.5% 0.053;
   --ui-category-text: 42% 0.11;
 
+  /* A category's mark, the dot beside a word: as light as the status bases it stands beside are
+     on average, as strong as the roles above (as much of the chroma its lightness allows), and
+     one in both themes, as a status's base is. */
+  --ui-category-mark: 64% 0.17;
+
   /* Without a category: the accented fill and its step under the pointer, on the surface instead
      of see-through, so no line behind an entry shows in it. */
   --ui-category-neutral: color-mix(in oklab, var(--ui-bg-inverted) 12%, var(--ui-bg));
@@ -276,39 +281,51 @@
   --color-category-rose: oklch(var(--ui-category-text) 15);
   --color-category-rose-surface: oklch(var(--ui-category-surface) 15);
   --color-category-rose-hover: oklch(var(--ui-category-hover) 15);
+  --color-category-rose-mark: oklch(var(--ui-category-mark) 15);
   --color-category-red: oklch(var(--ui-category-text) 28);
   --color-category-red-surface: oklch(var(--ui-category-surface) 28);
   --color-category-red-hover: oklch(var(--ui-category-hover) 28);
+  --color-category-red-mark: oklch(var(--ui-category-mark) 28);
   --color-category-orange: oklch(var(--ui-category-text) 55);
   --color-category-orange-surface: oklch(var(--ui-category-surface) 55);
   --color-category-orange-hover: oklch(var(--ui-category-hover) 55);
+  --color-category-orange-mark: oklch(var(--ui-category-mark) 55);
   --color-category-amber: oklch(var(--ui-category-text) 80);
   --color-category-amber-surface: oklch(var(--ui-category-surface) 80);
   --color-category-amber-hover: oklch(var(--ui-category-hover) 80);
+  --color-category-amber-mark: oklch(var(--ui-category-mark) 80);
   --color-category-lime: oklch(var(--ui-category-text) 125);
   --color-category-lime-surface: oklch(var(--ui-category-surface) 125);
   --color-category-lime-hover: oklch(var(--ui-category-hover) 125);
+  --color-category-lime-mark: oklch(var(--ui-category-mark) 125);
   --color-category-green: oklch(var(--ui-category-text) 150);
   --color-category-green-surface: oklch(var(--ui-category-surface) 150);
   --color-category-green-hover: oklch(var(--ui-category-hover) 150);
+  --color-category-green-mark: oklch(var(--ui-category-mark) 150);
   --color-category-teal: oklch(var(--ui-category-text) 180);
   --color-category-teal-surface: oklch(var(--ui-category-surface) 180);
   --color-category-teal-hover: oklch(var(--ui-category-hover) 180);
+  --color-category-teal-mark: oklch(var(--ui-category-mark) 180);
   --color-category-cyan: oklch(var(--ui-category-text) 210);
   --color-category-cyan-surface: oklch(var(--ui-category-surface) 210);
   --color-category-cyan-hover: oklch(var(--ui-category-hover) 210);
+  --color-category-cyan-mark: oklch(var(--ui-category-mark) 210);
   --color-category-blue: oklch(var(--ui-category-text) 250);
   --color-category-blue-surface: oklch(var(--ui-category-surface) 250);
   --color-category-blue-hover: oklch(var(--ui-category-hover) 250);
+  --color-category-blue-mark: oklch(var(--ui-category-mark) 250);
   --color-category-indigo: oklch(var(--ui-category-text) 275);
   --color-category-indigo-surface: oklch(var(--ui-category-surface) 275);
   --color-category-indigo-hover: oklch(var(--ui-category-hover) 275);
+  --color-category-indigo-mark: oklch(var(--ui-category-mark) 275);
   --color-category-violet: oklch(var(--ui-category-text) 300);
   --color-category-violet-surface: oklch(var(--ui-category-surface) 300);
   --color-category-violet-hover: oklch(var(--ui-category-hover) 300);
+  --color-category-violet-mark: oklch(var(--ui-category-mark) 300);
   --color-category-pink: oklch(var(--ui-category-text) 345);
   --color-category-pink-surface: oklch(var(--ui-category-surface) 345);
   --color-category-pink-hover: oklch(var(--ui-category-hover) 345);
+  --color-category-pink-mark: oklch(var(--ui-category-mark) 345);
 }
 
 /* The background changes only for a pointer that rests: 120 ms after it arrives, 80 ms after it
