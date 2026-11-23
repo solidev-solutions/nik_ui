@@ -17,6 +17,7 @@ test('the Foundation page lists its pages as cards, each group under its heading
     'H3 Typography',
     'H2 Shape and space',
     'H3 Elevation',
+    'H3 Layout',
   ])
 })
 

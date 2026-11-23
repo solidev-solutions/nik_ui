@@ -126,6 +126,7 @@ async function expectFoundationPages(within: Page | Locator) {
     'Typography',
     'Shape and space',
     'Elevation',
+    'Layout',
   ])
   await expect(navigation.getByRole('link', { name: 'Palettes' })).toHaveAttribute(
     'aria-current',
