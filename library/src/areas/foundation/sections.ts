@@ -9,6 +9,12 @@ export const GROUPS = [
         icon: 'i-hugeicons-colors',
         page: () => import('./PalettesSection.vue'),
       },
+      {
+        id: 'roles',
+        label: 'Roles',
+        icon: 'i-hugeicons-tag-01',
+        page: () => import('./RolesSection.vue'),
+      },
     ],
   },
 ]

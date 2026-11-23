@@ -8,7 +8,7 @@ test('the Foundation page lists its pages as cards, each group under its heading
   const headings = await page
     .getByRole('heading')
     .evaluateAll((all) => all.map((heading) => `${heading.tagName} ${heading.textContent?.trim()}`))
-  expect(headings).toEqual(['H1 Foundation', 'H2 Colors', 'H3 Palettes'])
+  expect(headings).toEqual(['H1 Foundation', 'H2 Colors', 'H3 Palettes', 'H3 Roles'])
 })
 
 test('a card leads to its page, whose title is announced', async ({ page }) => {
