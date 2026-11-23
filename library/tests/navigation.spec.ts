@@ -1,5 +1,6 @@
 import type { Locator, Page } from '@playwright/test'
 
+import { LIBRARY } from '../src/areas.ts'
 import { color, expect, openMenu, test } from './library.ts'
 
 const rail = (page: Page) => page.getByRole('complementary', { name: 'NichtImKopf UI' })
@@ -113,4 +114,16 @@ test('the menu closes where the window grows to 1024 px, and the page takes a cl
   await expect(page.getByRole('dialog')).toHaveCount(0)
   await rail(page).getByRole('link', { name: 'Components' }).click()
   await expect(page.getByRole('heading', { level: 1, name: 'Components' })).toBeVisible()
+})
+
+test('a change of page is announced by its title, the page of arrival is not', async ({ page }) => {
+  await page.goto('/foundation')
+  const announcer = page.getByRole('status')
+  await expect(announcer).toBeEmpty()
+
+  await rail(page).getByRole('link', { name: 'Components' }).click()
+  await expect(announcer).toHaveText(`Components · ${LIBRARY}`)
+
+  await rail(page).getByRole('link', { name: 'home' }).click()
+  await expect(announcer).toHaveText(LIBRARY)
 })

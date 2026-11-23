@@ -1,0 +1,15 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { START_LOCATION, useRouter } from 'vue-router'
+
+const message = ref('')
+// A change of page moves no focus and loads no document, so a screen reader would say nothing:
+// this says the new page's title. Not for the page a reader arrives on, which it reads itself.
+useRouter().afterEach((_to, from, failure) => {
+  if (!failure && from !== START_LOCATION) message.value = document.title
+})
+</script>
+
+<template>
+  <p role="status" class="sr-only">{{ message }}</p>
+</template>
