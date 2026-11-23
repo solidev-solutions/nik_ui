@@ -139,11 +139,27 @@ for (const { width, side } of [
 
 // There the line under one card's name takes two lines and the cards are equally tall: the room
 // that is left belongs to the foot of the shorter one, not to its art.
-test('at 1024 px the art of both cards keeps its shape', async ({ page }) => {
-  await page.setViewportSize({ width: 1024, height: 844 })
+test('at 640 px the art of both cards keeps its shape', async ({ page }) => {
+  await page.setViewportSize({ width: 640, height: 844 })
   await page.goto('/')
   for (const area of AREAS) {
     const art = (await card(page, area.label).locator('[class~="aspect-3/2"]').boundingBox())!
     expect(art.width / art.height).toBeCloseTo(1.5, 1)
+  }
+})
+
+test('the text and the cards share one column in the middle of the page', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/')
+  const main = (await page.getByRole('main').boundingBox())!
+  const boxes = await Promise.all(
+    [
+      page.getByRole('heading', { level: 2 }).first().locator('..'),
+      page.getByRole('main').getByRole('list'),
+    ].map(async (part) => (await part.boundingBox())!),
+  )
+  for (const box of boxes) {
+    expect(box.width).toBe(640)
+    expect(box.x - main.x).toBeCloseTo(main.x + main.width - (box.x + box.width), 0)
   }
 })
