@@ -57,4 +57,14 @@ export async function showWhole(page: Page) {
   await page.setViewportSize({ width, height: height + hidden })
 }
 
+/**
+ * Waits for a page's content. A Foundation page's content comes in a file of its own, after its
+ * head: every one of them begins with a group's heading.
+ */
+export async function content(page: Page, path: string) {
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  if (path.startsWith('/foundation/'))
+    await page.getByRole('main').getByRole('heading', { level: 2 }).first().waitFor()
+}
+
 export { expect }

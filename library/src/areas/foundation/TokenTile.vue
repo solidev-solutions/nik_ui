@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { useToast } from '@nuxt/ui/composables'
+import CopyButton from './CopyButton.vue'
 
-import { announce } from '../../shell/announcer.ts'
-
-const props = defineProps<{
+defineProps<{
   /** The token's name as it stands under the thing itself. */
   name: string
   /** One value, or one for each theme under the theme's name. */
@@ -12,31 +10,12 @@ const props = defineProps<{
   copy: string
 }>()
 defineSlots<{ default: () => unknown }>()
-
-const toast = useToast()
-
-async function toClipboard() {
-  let title = 'Copied'
-  let color: 'error' | undefined
-  try {
-    await navigator.clipboard.writeText(props.copy)
-  } catch {
-    title = 'Could not copy'
-    color = 'error'
-  }
-  // The same name a second time makes its toast pulse instead of a second one.
-  toast.add({ id: `${title} ${props.copy}`, title, description: props.copy, color })
-  // Reka UI 2.11 hides its own announcement of a toast from a screen reader.
-  announce(`${title}: ${props.copy}`)
-}
 </script>
 
 <template>
-  <button
-    type="button"
+  <CopyButton
+    :copy="copy"
     class="group/tile flex w-full min-w-0 flex-col gap-2 rounded-lg text-start"
-    :title="`Copy ${copy}`"
-    @click="toClipboard"
   >
     <slot />
     <span class="flex flex-col gap-0.5">
@@ -53,5 +32,5 @@ async function toClipboard() {
         </span>
       </span>
     </span>
-  </button>
+  </CopyButton>
 </template>
