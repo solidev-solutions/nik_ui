@@ -31,6 +31,12 @@ export default defineConfigWithVueTs(
   },
 
   {
+    name: 'nik/ported-names',
+    // A port keeps the names of its original, and ReUI names the frame's outer part in one word.
+    rules: { 'vue/multi-word-component-names': ['error', { ignores: ['Frame'] }] },
+  },
+
+  {
     name: 'nik/library-tests',
     // Only the `test` of tests/library.ts fails on a request to another origin.
     files: ['library/tests/**/*.ts'],

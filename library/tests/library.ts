@@ -39,4 +39,17 @@ export async function openMenu(page: Page) {
   return page.getByRole('dialog', { name: LIBRARY })
 }
 
+/**
+ * Makes the window as tall as the page's content. The page scrolls inside its panel, and axe
+ * leaves what is scrolled out of view unjudged.
+ */
+export async function showWhole(page: Page) {
+  const hidden = await page
+    .getByRole('main')
+    .locator('..')
+    .evaluate((body) => body.scrollHeight - body.clientHeight)
+  const { width, height } = page.viewportSize()!
+  await page.setViewportSize({ width, height: height + hidden })
+}
+
 export { expect }
