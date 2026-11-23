@@ -45,7 +45,7 @@ import { nikProps } from '@nichtimkopf/ui/theme'
 </template>
 ```
 
-These defaults also win over what `UApp` takes for the same component, such as its `tooltip`. To change one, hand `UTheme` an object of your own with the theme's spread into it:
+The tooltip's defaults also win over what `UApp` takes as its `tooltip`; for the toaster, what `UApp` takes as its `toaster` wins over the theme's. To change a default, hand `UTheme` an object of your own with the theme's spread into it:
 
 ```ts
 const props = { ...nikProps, tooltip: { ...nikProps.tooltip, delayDuration: 0 } }

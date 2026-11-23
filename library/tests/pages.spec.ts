@@ -91,6 +91,8 @@ for (const colorScheme of ['light', 'dark'] as const) {
         await page.goto(path)
         const root = expect(page.locator('html'))
         await (colorScheme === 'dark' ? root : root.not).toContainClass('dark')
+        // A page's content may come in a file of its own.
+        await page.waitForLoadState('networkidle')
         await showWhole(page)
         const { violations } = await new AxeBuilder({ page }).analyze()
         expect(violations).toEqual([])
