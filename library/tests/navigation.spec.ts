@@ -116,6 +116,45 @@ test('the menu closes where the window grows to 1024 px, and the page takes a cl
   await expect(page.getByRole('heading', { level: 1, name: 'Components' })).toBeVisible()
 })
 
+async function expectFoundationPages(within: Page | Locator) {
+  const navigation = within.getByRole('navigation', { name: 'Foundation' })
+  await expect(navigation.getByRole('listitem')).toHaveText(['Colors', 'Palettes'])
+  await expect(navigation.getByRole('link', { name: 'Palettes' })).toHaveAttribute(
+    'aria-current',
+    'page',
+  )
+}
+
+test('beside a page of the Foundation its navigation lists the pages under their groups', async ({
+  page,
+}) => {
+  await page.goto('/foundation/palettes')
+  await expectFoundationPages(page)
+  // The rail shows the area as the one that is open.
+  await expect(rail(page).getByRole('link', { name: 'Foundation' })).toHaveAttribute(
+    'data-active',
+    '',
+  )
+
+  await rail(page).getByRole('link', { name: 'Components' }).click()
+  await expect(page.getByRole('heading', { level: 1, name: 'Components' })).toBeVisible()
+  // The rail's is the only navigation left.
+  await expect(page.getByRole('navigation')).toHaveCount(1)
+})
+
+test('below 1024 px the menu shows the Foundation’s pages beside the rail’s destinations', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1023, height: 768 })
+  await page.goto('/foundation/palettes')
+  const menu = await openMenu(page)
+  await expectFoundationPages(menu)
+  await expect(menu.getByRole('link', { name: 'home' })).toBeVisible()
+  const areas = menu.getByRole('navigation', { name: 'Areas' })
+  await expect(areas.getByRole('link', { name: 'Foundation' })).toBeVisible()
+  await expect(areas.getByRole('link', { name: 'Components' })).toBeVisible()
+})
+
 test('a change of page is announced by its title, the page of arrival is not', async ({ page }) => {
   await page.goto('/foundation')
   const announcer = page.getByRole('status')

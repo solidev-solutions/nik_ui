@@ -1,15 +1,25 @@
 <script setup lang="ts">
-import UDashboardNavbar from '@nuxt/ui/components/DashboardNavbar.vue'
+import PageHead from '@nichtimkopf/ui/kit/PageHead.vue'
+import type { BreadcrumbItem } from '@nuxt/ui/components/Breadcrumb.vue'
 import UDashboardPanel from '@nuxt/ui/components/DashboardPanel.vue'
+import UDashboardSidebarCollapse from '@nuxt/ui/components/DashboardSidebarCollapse.vue'
+import { useRoute } from 'vue-router'
 
-defineProps<{ title: string }>()
+defineProps<{ title: string; parents?: BreadcrumbItem[] }>()
 defineSlots<{ default?: () => unknown }>()
+
+const route = useRoute()
 </script>
 
 <template>
   <UDashboardPanel id="page">
     <template #header>
-      <UDashboardNavbar as="header" :title="title" />
+      <PageHead as="header" :title="title" :parents="parents">
+        <!-- The way to fold the navigation without a pointer, from 1024 px where it stands. -->
+        <template v-if="route.meta.area?.navigation" #leading>
+          <UDashboardSidebarCollapse />
+        </template>
+      </PageHead>
     </template>
 
     <template #body>

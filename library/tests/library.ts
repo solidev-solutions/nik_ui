@@ -1,8 +1,13 @@
 import { expect, test as base, type Page } from '@playwright/test'
 
 import { AREAS, LIBRARY } from '../src/areas.ts'
+import { SECTIONS } from '../src/areas/foundation/sections.ts'
 
-export const pages = ['/', ...AREAS.map((area) => `/${area.id}`)]
+export const pages = [
+  '/',
+  ...AREAS.map((area) => `/${area.id}`),
+  ...SECTIONS.map((section) => `/foundation/${section.id}`),
+]
 
 /**
  * Fails when a page of the test requests something from another origin before the test ends, as
