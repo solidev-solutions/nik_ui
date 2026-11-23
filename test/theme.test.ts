@@ -194,6 +194,16 @@ test('the stylesheet and the script carry the dashboard panel’s override', () 
   expect(script).toContain('scrollbar-gutter-both')
 })
 
+// The library's Elevation page names these parts for its levels.
+test('every part that lies above the page stands on the raised surface', () => {
+  const { tooltip, dropdownMenu, contextMenu, popover, modal, slideover, drawer, card } =
+    nikTheme.ui
+  for (const part of [tooltip, dropdownMenu, contextMenu, popover, modal, slideover, drawer]) {
+    expect(part.slots.content).toContain('bg-raised')
+  }
+  expect(card.variants.variant.outline.root).toBe('bg-raised')
+})
+
 test('the script carries the prop defaults the app hands to UTheme', () => {
   expect(script).toMatch(/slideover:\s*\{\s*inset:\s*(!0|true)\s*\}/)
   expect(script).toMatch(/tooltip:\s*\{\s*delayDuration:\s*300\b/)

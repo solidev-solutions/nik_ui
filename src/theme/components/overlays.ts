@@ -3,10 +3,21 @@
 
 import type { NuxtUIOptions } from '@nuxt/ui/vite'
 
+// What lies above the page stands on the raised surface: in the dark theme it is lighter than the
+// page, where no shadow shows.
+const raised = { slots: { content: 'bg-raised' } }
+// With an arrow, the arrow is of the surface too.
+const pointing = { slots: { ...raised.slots, arrow: 'fill-(--ui-bg-raised)' } }
+
 export const { ui: overlays } = {
   ui: {
-    // With an arrow, the arrow is of the tooltip's surface too.
-    tooltip: { slots: { content: 'bg-raised', arrow: 'fill-(--ui-bg-raised)' } },
+    tooltip: pointing,
+    dropdownMenu: raised,
+    contextMenu: raised,
+    popover: raised,
+    modal: raised,
+    drawer: raised,
+    card: { variants: { variant: { outline: { root: 'bg-raised' } } } },
     slideover: {
       slots: { overlay: 'bg-overlay', content: 'bg-raised', title: 'text-base' },
       variants: { inset: { true: { content: 'rounded-xl' } } },
