@@ -19,7 +19,6 @@ const REFERENCES = [
 
 <template>
   <LibraryPage :title="LIBRARY">
-    <!-- One column in the middle of the page, which the text and the two cards share. -->
     <div class="mx-auto flex w-full max-w-160 flex-col gap-12">
       <section class="flex flex-col gap-4">
         <h2 class="text-base font-semibold">What is {{ LIBRARY }}</h2>

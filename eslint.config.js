@@ -32,6 +32,7 @@ export default defineConfigWithVueTs(
 
   {
     name: 'nik/ported-names',
+    files: ['src/kit/Frame.vue'],
     // A port keeps the names of its original, and ReUI names the frame's outer part in one word.
     rules: { 'vue/multi-word-component-names': ['error', { ignores: ['Frame'] }] },
   },

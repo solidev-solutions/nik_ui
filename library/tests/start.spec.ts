@@ -1,7 +1,7 @@
-import type { Page } from '@playwright/test'
+import type { Locator, Page } from '@playwright/test'
 
 import { AREAS, LIBRARY } from '../src/areas.ts'
-import { expect, test } from './library.ts'
+import { color, expect, test } from './library.ts'
 
 const card = (page: Page, label: string) =>
   page
@@ -66,27 +66,38 @@ test('a card that has risen is the link down to the lower edge of its place', as
   expect(under).toBe(`/${area!.id}`)
 })
 
-test('a card rises under the pointer', async ({ page }) => {
+/** The color of a card's edge: of the box around its link that has one. */
+const edge = (link: Locator) =>
+  link.evaluate((inside) => {
+    let box = inside.parentElement!
+    while (parseFloat(getComputedStyle(box).borderTopWidth) === 0) box = box.parentElement!
+    return getComputedStyle(box).borderTopColor
+  })
+
+test('a card rises under the pointer, and its edge darkens', async ({ page }) => {
   await page.goto('/')
   const link = page.getByRole('main').getByRole('link').first()
   await link.scrollIntoViewIfNeeded()
   const { y } = (await link.boundingBox())!
+  expect(await edge(link)).toBe(await color(page, '--ui-border'))
 
   await link.hover()
-  expect(await page.evaluate(() => document.getAnimations().length)).toBeGreaterThan(0)
   await expect.poll(async () => (await link.boundingBox())!.y).toBeCloseTo(y - 4, 1)
+  await expect.poll(() => edge(link)).toBe(await color(page, '--ui-border-accented'))
 })
 
 test.describe('with reduced motion', () => {
   test.use({ reducedMotion: 'reduce' })
 
-  test('a card stays where it is under the pointer', async ({ page }) => {
+  test('a card stays where it is under the pointer, and its edge darkens', async ({ page }) => {
     await page.goto('/')
     const link = page.getByRole('main').getByRole('link').first()
     await link.scrollIntoViewIfNeeded()
     const { y } = (await link.boundingBox())!
 
     await link.hover()
+    // The edge tells of the pointer there, at once.
+    expect(await edge(link)).toBe(await color(page, '--ui-border-accented'))
     expect(await page.evaluate(() => document.getAnimations().length)).toBe(0)
     expect((await link.boundingBox())!.y).toBe(y)
   })
