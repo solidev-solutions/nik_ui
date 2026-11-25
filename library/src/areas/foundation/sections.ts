@@ -28,6 +28,17 @@ export const GROUPS = [
       },
     ],
   },
+  {
+    label: 'Shape and space',
+    sections: [
+      {
+        id: 'elevation',
+        label: 'Elevation',
+        icon: 'i-hugeicons-layers-01',
+        page: () => import('./ElevationSection.vue'),
+      },
+    ],
+  },
 ]
 
 export const SECTIONS = GROUPS.flatMap((group) => group.sections)
