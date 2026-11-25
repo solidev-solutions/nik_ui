@@ -122,10 +122,12 @@
     var(--ui-color-neutral-200) 80%
   );
   --ui-text-muted: var(--ui-color-neutral-400);
+
+  /* The darkest gray that holds 3:1 on the raised surface too. */
   --ui-text-dimmed: color-mix(
     in oklab,
     var(--ui-color-neutral-500),
-    var(--ui-color-neutral-400) 20%
+    var(--ui-color-neutral-400) 25%
   );
   --ui-bg-elevated: color-mix(in oklab, var(--ui-bg-inverted) 7%, transparent);
   --ui-bg-accented: color-mix(in oklab, var(--ui-bg-inverted) 13%, transparent);
