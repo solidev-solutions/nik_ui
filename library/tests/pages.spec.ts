@@ -52,6 +52,30 @@ test('the head shows its title at 16 px and begins where the page’s body begin
   }
 })
 
+test('a region’s scrollbar shows while the keyboard’s focus is inside it, and not after a click', async ({
+  page,
+}) => {
+  await page.goto('/foundation/roles')
+  const main = page.getByRole('main')
+  await main.getByRole('heading', { level: 2 }).first().waitFor()
+  const region = main.locator('..')
+  const bar = () => region.evaluate((box) => getComputedStyle(box).scrollbarColor)
+  // Away from the region, over the rail.
+  await page.mouse.move(8, 400)
+  const hidden = await bar()
+
+  await region.hover()
+  const shown = await bar()
+  expect(shown).not.toBe(hidden)
+
+  await main.getByRole('button').first().click()
+  await page.mouse.move(8, 400)
+  await expect.poll(bar).toBe(hidden)
+
+  await page.keyboard.press('Tab')
+  await expect.poll(bar).toBe(shown)
+})
+
 // Nuxt UI makes a panel at least as tall as the screen, and the frame's card is shorter than that.
 test('the page ends where the frame’s card ends', async ({ page }) => {
   await page.goto('/')

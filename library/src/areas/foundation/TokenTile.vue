@@ -6,7 +6,8 @@ import { announce } from '../../shell/announcer.ts'
 const props = defineProps<{
   /** The token's name as it stands under the thing itself. */
   name: string
-  value: string
+  /** One value, or one for each theme under the theme's name. */
+  value: string | Record<string, string>
   /** What a press copies: the name as one types it in code. */
   copy: string
 }>()
@@ -42,7 +43,15 @@ async function toClipboard() {
       <span class="text-base font-medium wrap-anywhere group-hover/tile:text-primary sm:text-sm">
         {{ name }}
       </span>
-      <span class="text-sm wrap-anywhere text-muted sm:text-xs">{{ value }}</span>
+      <span class="text-sm wrap-anywhere text-muted sm:text-xs">
+        <template v-if="typeof value === 'string'">{{ value }}</template>
+        <span v-else class="grid grid-cols-[auto_1fr] gap-x-2">
+          <template v-for="(each, theme) in value" :key="theme">
+            <span>{{ theme }}</span>
+            <span>{{ each }}</span>
+          </template>
+        </span>
+      </span>
     </span>
   </button>
 </template>

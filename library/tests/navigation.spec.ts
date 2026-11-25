@@ -118,7 +118,7 @@ test('the menu closes where the window grows to 1024 px, and the page takes a cl
 
 async function expectFoundationPages(within: Page | Locator) {
   const navigation = within.getByRole('navigation', { name: 'Foundation' })
-  await expect(navigation.getByRole('listitem')).toHaveText(['Colors', 'Palettes'])
+  await expect(navigation.getByRole('listitem')).toHaveText(['Colors', 'Palettes', 'Roles'])
   await expect(navigation.getByRole('link', { name: 'Palettes' })).toHaveAttribute(
     'aria-current',
     'page',
