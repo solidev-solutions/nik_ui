@@ -12,6 +12,6 @@ export const dashboard = {
   },
   // A line on the sidebar's edge, with what stands in it at its middle.
   dashboardResizeHandle: {
-    base: 'z-1 -ms-px lg:flex w-px shrink-0 cursor-col-resize items-center justify-center bg-accented hover-intent hover:bg-primary peer-data-[dragging=true]:bg-primary',
+    base: 'z-1 -ms-px lg:flex w-px shrink-0 cursor-col-resize items-center justify-center bg-accented hover-intent hover:bg-primary',
   },
 }

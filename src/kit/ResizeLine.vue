@@ -15,15 +15,32 @@ const emit = defineEmits<{ toggle: [] }>()
 
 const styles = tv(resizeLine)()
 
-// Only a release within 4 px of a press of the main button is a click: a drag ends with a release
-// too, and Nuxt UI's touch listener holds back a finger's click.
-let pressedAt: number | undefined
-const pressed = (event: PointerEvent) => {
-  pressedAt = event.button === 0 ? event.clientX : undefined
-}
-const released = (event: PointerEvent) => {
-  if (pressedAt !== undefined && Math.abs(event.clientX - pressedAt) <= 4) emit('toggle')
-  pressedAt = undefined
+// A click is a press of the main button that ends on the line without having strayed more than
+// 4 px on its way: a drag ends with a release too, and Nuxt UI's touch listener holds back a
+// finger's click. The window hears the rest of a press, which may end anywhere.
+function pressed(event: PointerEvent) {
+  if (event.button !== 0) return
+  const line = event.currentTarget as HTMLElement
+  const from = event.clientX
+  let strayed = false
+  const press = new AbortController()
+  const during = { signal: press.signal }
+  window.addEventListener(
+    'pointermove',
+    (move) => {
+      strayed ||= Math.abs(move.clientX - from) > 4
+    },
+    during,
+  )
+  window.addEventListener('pointercancel', () => press.abort(), during)
+  window.addEventListener(
+    'pointerup',
+    (up) => {
+      press.abort()
+      if (!strayed && up.target instanceof Node && line.contains(up.target)) emit('toggle')
+    },
+    during,
+  )
 }
 </script>
 
@@ -33,7 +50,6 @@ const released = (event: PointerEvent) => {
     :title="label"
     :class="styles.root({ class: props.class })"
     @pointerdown="pressed"
-    @pointerup="released"
   >
     <div :class="styles.grip()" />
   </UDashboardResizeHandle>

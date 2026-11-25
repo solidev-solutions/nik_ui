@@ -7,6 +7,7 @@ import UDashboardSidebar from '@nuxt/ui/components/DashboardSidebar.vue'
 import UDashboardSidebarToggle from '@nuxt/ui/components/DashboardSidebarToggle.vue'
 import USidebar from '@nuxt/ui/components/Sidebar.vue'
 import { tv } from '@nuxt/ui/utils/tv'
+import { onBeforeUnmount, onMounted } from 'vue'
 
 import { appFrame } from '../theme/kit/app-frame.js'
 import ResizeLine from './ResizeLine.vue'
@@ -38,6 +39,23 @@ const panel = defineModel<boolean>('panel', { default: false })
 const menu = defineModel<boolean>('menu', { default: false })
 
 const styles = tv(appFrame)()
+
+// Nuxt UI only hides its open menu from 1024 px: it would stay a dialog that nobody sees, and
+// take the page's first click.
+let docks: MediaQueryList | undefined
+const closeMenu = () => {
+  if (docks?.matches) menu.value = false
+}
+onMounted(() => {
+  docks = matchMedia('(min-width: 64rem)')
+  docks.addEventListener('change', closeMenu)
+})
+onBeforeUnmount(() => docks?.removeEventListener('change', closeMenu))
+
+// Nuxt UI closes the menu where the page changes: a link to the page a reader is on changes none.
+const followed = (event: MouseEvent) => {
+  if (event.target instanceof Element && event.target.closest('a')) menu.value = false
+}
 </script>
 
 <template>
@@ -77,7 +95,7 @@ const styles = tv(appFrame)()
             <div :class="styles.menuHead()">
               <UDashboardSidebarToggle />
             </div>
-            <div :class="styles.menu()">
+            <div :class="styles.menu()" @click="followed">
               <slot name="menu" />
             </div>
           </template>
