@@ -95,6 +95,43 @@ test('an example’s links lead to its originals at ReUI', async ({ page }) => {
   )
 })
 
+test('an example’s button shows the example’s file under it, a second press hides it, and the focus stays on the button', async ({
+  page,
+}) => {
+  const [example] = examples
+  await page.goto(`/components/${FAMILIES[0]!.id}`)
+  const main = page.getByRole('main')
+  const button = (name: string, expanded: boolean) =>
+    main.getByRole('button', { name: `${name}: ${example!.title}`, exact: true, expanded })
+
+  await button('Code', false).click()
+  await expect(button('Hide code', true)).toBeFocused()
+  await expect(main.getByRole('code')).toBeVisible()
+  expect(await main.getByRole('code').textContent()).toBe(readFileSync(example!.file, 'utf8'))
+
+  await button('Hide code', true).click()
+  await expect(button('Code', false)).toBeFocused()
+  await expect(main.getByRole('code')).toHaveCount(0)
+})
+
+test.describe('with the clipboard allowed', () => {
+  test.use({ permissions: ['clipboard-read', 'clipboard-write'] })
+
+  test('the copy button of an example’s code copies the whole file, and says so', async ({
+    page,
+  }) => {
+    const [example] = examples
+    await page.goto(`/components/${FAMILIES[0]!.id}`)
+    const main = page.getByRole('main')
+    await main.getByRole('button', { name: `Code: ${example!.title}`, exact: true }).click()
+    await main.getByRole('button', { name: `Copy code: ${example!.title}`, exact: true }).click()
+    await expect(page.getByRole('status')).toHaveText(`Copied: the code of ${example!.title}`)
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+      readFileSync(example!.file, 'utf8'),
+    )
+  })
+})
+
 test('a family the Components do not have leads back to the Components', async ({ page }) => {
   await page.goto('/components/nothing')
   await expect(page).toHaveURL('/components')
@@ -121,6 +158,9 @@ for (const family of FAMILIES) {
       for (const example of member.examples) {
         const drawn = section.getByRole('group', { name: example.title, exact: true })
         await expect(drawn.locator('> *').first()).toBeVisible()
+        await expect(
+          section.getByRole('button', { name: `Code: ${example.title}`, exact: true }),
+        ).toBeVisible()
         for (const port of example.ports ?? [])
           await expect(
             section.getByRole('link', { name: `ReUI: ${port}`, exact: true }),

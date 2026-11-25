@@ -118,6 +118,9 @@
 
   /* A slashed zero. */
   --font-sans--font-feature-settings: 'zero';
+
+  /* Code as it is typed: JetBrains Mono's contextual alternates draw `<!--` and `-->` as arrows. */
+  --font-mono--font-feature-settings: 'calt' 0;
   --radius-xs: 0.25rem;
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;

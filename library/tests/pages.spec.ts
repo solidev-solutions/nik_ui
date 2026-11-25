@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright'
+import type { Page } from '@playwright/test'
 
 import { AREAS, LIBRARY } from '../src/areas.ts'
 import { FAMILIES } from '../src/areas/components/families.ts'
@@ -94,11 +95,23 @@ test('the page ends where the frame’s card ends', async ({ page }) => {
   expect(await bottom(panel)).toBeLessThanOrEqual(await bottom(card))
 })
 
+/** On a family's page, opens its first example's code, so that the checks cover a code view too. */
+async function showCode(page: Page, path: string) {
+  if (!path.startsWith('/components/')) return
+  const main = page.getByRole('main')
+  await main
+    .getByRole('button', { name: /^Code: / })
+    .first()
+    .click()
+  await expect(main.getByRole('code')).toBeVisible()
+}
+
 for (const path of pages) {
   test(`${path}: nothing scrolls sideways at 390 px`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto(path)
     await content(page, path)
+    await showCode(page, path)
     const sideways = await page.evaluate(() =>
       [...document.querySelectorAll('*')]
         .filter((element) => {
@@ -122,6 +135,7 @@ for (const colorScheme of ['light', 'dark'] as const) {
         const root = expect(page.locator('html'))
         await (colorScheme === 'dark' ? root : root.not).toContainClass('dark')
         await content(page, path)
+        await showCode(page, path)
         await showWhole(page)
         const { violations } = await new AxeBuilder({ page }).analyze()
         expect(violations).toEqual([])

@@ -128,13 +128,18 @@ test('the stylesheet loads the fonts from files of the build', () => {
   }
 })
 
-test('the stylesheet carries the fonts and the slashed zero', () => {
+test('the stylesheet carries the fonts, the slashed zero and code without the mono face’s arrows', () => {
   expect(css).toMatch(/--font-sans:\s*["']Inter Variable["']/)
   expect(css).toMatch(
     /@font-face\s*\{[^}]*font-family:\s*["']?Inter Variable["']?[;}][^}]*inter-latin/,
   )
   expect(css).toMatch(/--font-mono:\s*["']JetBrains Mono Variable["']/)
   expect(css).toMatch(/--font-sans--font-feature-settings:\s*["']zero["']/)
+  expect(css).toMatch(/--font-mono--font-feature-settings:\s*["']calt["']\s*0/)
+  // Tailwind hands a family's settings on to code only where the theme declares them.
+  expect(css).toMatch(
+    /--default-mono-font-feature-settings:\s*var\(--font-mono--font-feature-settings\)/,
+  )
 })
 
 test('Nuxt UI’s configuration in the script names the theme’s icons', () => {
