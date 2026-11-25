@@ -1,23 +1,49 @@
 import { fileURLToPath } from 'node:url'
 
+import ui from '@nuxt/ui/vite'
+import vue from '@vitejs/plugin-vue'
 import { build } from 'vite'
 import { expect, test } from 'vitest'
 
 import { icon, nikTheme } from '../src/theme/index.ts'
 
-const built = await build({
-  root: fileURLToPath(new URL('./fixtures/app', import.meta.url)),
-  logLevel: 'error',
-  build: { write: false },
-})
-const files = 'output' in built ? built.output : []
-const text = (extension: string) =>
+const root = fileURLToPath(new URL('./fixtures/app', import.meta.url))
+const output = (built: Awaited<ReturnType<typeof build>>) => ('output' in built ? built.output : [])
+const text = (files: ReturnType<typeof output>, extension: string) =>
   files
     .filter((file) => file.fileName.endsWith(extension))
     .map((file) => (file.type === 'chunk' ? file.code : file.source))
     .join('')
-const css = text('.css')
-const script = text('.js')
+const selector = (name: string) => `.${name.replace(/[^\w-]/g, '\\$&')}`
+
+// The fixture as an app that has Nuxt UI keep the looks only of the components it finds in use.
+const detecting = await build({
+  root,
+  configFile: false,
+  logLevel: 'error',
+  build: { write: false },
+  plugins: [
+    vue(),
+    ui({
+      ...nikTheme,
+      components: false,
+      autoImport: false,
+      router: false,
+      experimental: { componentDetection: true },
+    }),
+  ],
+})
+const detectingCss = text(output(detecting), '.css')
+
+const files = output(
+  await build({
+    root,
+    logLevel: 'error',
+    build: { write: false },
+  }),
+)
+const css = text(files, '.css')
+const script = text(files, '.js')
 
 test('the stylesheet carries every step of the walnut palette', () => {
   for (const step of [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950]) {
@@ -127,4 +153,22 @@ test('the script carries every icon of the registry', () => {
 // theme holds: it would be fetched from a server at the first sight.
 test('the script holds no icon role that Nuxt UI still names', () => {
   expect(script).not.toMatch(/i-lucide-/)
+})
+
+test('the stylesheet carries the classes of a kit look and of a theme override', () => {
+  // A class that nothing else names, of each: the frame's look and the dashboard sidebar's override.
+  for (const name of ['data-[collapsed=true]:border-e-0', 'sm:max-w-72']) {
+    expect(css).toContain(selector(name))
+  }
+})
+
+test('Nuxt UI’s configuration in the script carries a theme override', () => {
+  expect(script).toContain('sm:max-w-72')
+})
+
+test('with component detection Nuxt UI keeps the looks of the components the kit renders', () => {
+  // Detection is at work: the looks of the components nothing renders are left out.
+  expect(detectingCss.length).toBeLessThan(css.length)
+  // The dashboard sidebar's width, a class of its own look.
+  expect(detectingCss).toContain(selector('w-(--width)'))
 })

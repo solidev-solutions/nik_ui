@@ -5,6 +5,11 @@
 /* Only the values that differ from Tailwind's and Nuxt UI's. */
 @import '@fontsource-variable/jetbrains-mono';
 
+/* An app's Tailwind reads no package by itself: these name the files whose classes it has to find,
+   the looks in the theme and whatever a component of the kit writes in its template. */
+@source './kit';
+@source './theme';
+
 /* Inter 4.1 from its author (https://rsms.me/inter/font-files/InterVariable.woff2), cut to the two
    ranges below. Fontsource ships Google's build of Inter, which lacks the slashed zero. To cut a
    new release the same way (fonttools with brotli, gftools):
@@ -129,6 +134,7 @@
 :root,
 :host,
 .light {
+  --ui-header-height: 3.5rem;
   --ui-primary: var(--ui-color-primary-700);
 
   /* A status's base (icon, dot, fill), and its dark text, light edge and lighter surface. */
