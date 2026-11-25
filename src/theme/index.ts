@@ -3,6 +3,8 @@
 
 import type { NuxtUIOptions } from '@nuxt/ui/vite'
 
+import { icon, icons } from './icons.js'
+
 export const nikTheme = {
   theme: {
     colors: ['primary', 'success', 'info', 'warning', 'error'],
@@ -18,5 +20,15 @@ export const nikTheme = {
       error: 'red',
       neutral: 'stone',
     } as const,
+    icons,
+  },
+  icon: {
+    clientBundle: {
+      // The whole registry: Nuxt UI bundles by itself only icons of its default collection, and
+      // no scan finds an icon that an app names by its meaning.
+      icons: Object.values(icon),
+    },
   },
 } satisfies NuxtUIOptions
+
+export { icon }

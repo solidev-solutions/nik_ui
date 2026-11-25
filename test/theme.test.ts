@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url'
 import { build } from 'vite'
 import { expect, test } from 'vitest'
 
-import { nikTheme } from '../src/theme/index.ts'
+import { icon, nikTheme } from '../src/theme/index.ts'
 
 const built = await build({
   root: fileURLToPath(new URL('./fixtures/app', import.meta.url)),
@@ -93,4 +93,38 @@ test('the stylesheet carries the easing, the rule that delays a hover and the fo
   expect(css).toMatch(/\.hover-intent[^{]*\{[^}]*transition/)
   // The theme's own ring, on whatever takes the focus: Nuxt UI's rule names the link alone.
   expect(css).toMatch(/[,{}]\s*:focus-visible\s*\{[^}]*outline:\s*3px/)
+})
+
+test('the stylesheet loads the fonts from files of the build', () => {
+  for (const name of ['inter-latin', 'inter-latin-ext', 'jetbrains-mono-latin-wght-normal']) {
+    const font = files.find((file) => file.type === 'asset' && file.names.includes(`${name}.woff2`))
+    expect(css).toContain(`url(/${font?.fileName})`)
+  }
+})
+
+test('the stylesheet carries the fonts and the slashed zero', () => {
+  expect(css).toMatch(/--font-sans:\s*["']Inter Variable["']/)
+  expect(css).toMatch(
+    /@font-face\s*\{[^}]*font-family:\s*["']?Inter Variable["']?[;}][^}]*inter-latin/,
+  )
+  expect(css).toMatch(/--font-mono:\s*["']JetBrains Mono Variable["']/)
+  expect(css).toMatch(/--font-sans--font-feature-settings:\s*["']zero["']/)
+})
+
+test('Nuxt UI’s configuration in the script names the theme’s icons', () => {
+  for (const [role, name] of Object.entries(nikTheme.ui.icons)) {
+    expect(script).toMatch(new RegExp(`\\b${role}:\\s*["'\`]${name}["'\`]`))
+  }
+})
+
+test('the script carries every icon of the registry', () => {
+  for (const name of Object.values(icon)) {
+    expect(script).toContain(`"${name.replace('i-hugeicons-', '')}":{`)
+  }
+})
+
+// A role the theme does not name keeps Nuxt UI's Lucide icon, which no build of an app with this
+// theme holds: it would be fetched from a server at the first sight.
+test('the script holds no icon role that Nuxt UI still names', () => {
+  expect(script).not.toMatch(/i-lucide-/)
 })
