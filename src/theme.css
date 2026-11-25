@@ -72,6 +72,8 @@
   --radius-md: 0.5rem;
   --radius-lg: 0.625rem;
   --radius-xl: 0.875rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
   --ease-reveal: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -294,6 +296,20 @@
     background-color: color-mix(in oklab, var(--ui-primary) 20%, transparent);
   }
 
+  /* On a surface of the primary or the inverted color that tint cannot be seen: there a selection
+     is the surface's own pair the other way around. */
+  .bg-primary::selection,
+  .bg-primary ::selection {
+    background-color: var(--ui-text-inverted);
+    color: var(--ui-primary);
+  }
+
+  .bg-inverted::selection,
+  .bg-inverted ::selection {
+    background-color: var(--ui-text-inverted);
+    color: var(--ui-bg-inverted);
+  }
+
   /* A part that stays while the page around it changes moves to its new place as our reveals
      do. */
   ::view-transition-group(*),
@@ -316,13 +332,17 @@
     scrollbar-color: var(--ui-border-accented) transparent;
   }
 
-  /* Where a pointer can rest, a scrollbar shows only while it is over the region. */
+  /* Where a pointer can rest, a scrollbar shows only while it is over the region, or while the
+     keyboard's focus is inside it: a reader who scrolls by keys sees where the region stands. Not
+     for the focus a click leaves on a button, which would keep the bar after every click. */
   @media (hover: hover) {
     * {
       scrollbar-color: transparent transparent;
     }
 
-    :hover {
+    :hover,
+    :focus-visible,
+    :has(:focus-visible) {
       scrollbar-color: var(--ui-border-accented) transparent;
     }
   }

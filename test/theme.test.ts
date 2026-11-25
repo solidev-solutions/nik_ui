@@ -67,6 +67,23 @@ test('the radius classes take the theme’s scale', () => {
   expect(css).toMatch(/--radius-lg:\s*0?\.625rem/)
 })
 
+// Nuxt UI derives the two largest from a knob of its own: there the scale would follow it only at
+// its upper end.
+test('the largest radii are the theme’s too, whatever Nuxt UI’s knob says', () => {
+  expect(css).toMatch(/\.rounded-2xl\s*\{\s*border-radius:\s*var\(--radius-2xl\)/)
+  expect(css).toMatch(/--radius-2xl:\s*1rem/)
+})
+
+test('a selection shows on a surface of the primary and of the inverted color', () => {
+  for (const surface of ['bg-primary', 'bg-inverted']) {
+    expect(css).toMatch(new RegExp(`\\.${surface} ::selection[^{]*\\{[^}]*color:`))
+  }
+})
+
+test('a scrollbar also shows for the keyboard’s focus inside its region', () => {
+  expect(css).toMatch(/:has\(:focus-visible\)[^{]*\{[^}]*scrollbar-color/)
+})
+
 test('Nuxt UI’s components come without the transitions the option turns off', () => {
   expect(css).not.toMatch(/\.transition-colors\b/)
 })
