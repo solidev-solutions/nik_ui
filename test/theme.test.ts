@@ -70,3 +70,10 @@ test('the radius classes take the theme’s scale', () => {
 test('Nuxt UI’s components come without the transitions the option turns off', () => {
   expect(css).not.toMatch(/\.transition-colors\b/)
 })
+
+test('the stylesheet carries the easing, the rule that delays a hover and the focus ring', () => {
+  expect(css).toMatch(/--ease-reveal:\s*cubic-bezier\(/)
+  expect(css).toMatch(/\.hover-intent[^{]*\{[^}]*transition/)
+  // The theme's own ring, on whatever takes the focus: Nuxt UI's rule names the link alone.
+  expect(css).toMatch(/[,{}]\s*:focus-visible\s*\{[^}]*outline:\s*3px/)
+})
