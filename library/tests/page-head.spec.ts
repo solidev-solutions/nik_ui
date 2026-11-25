@@ -27,7 +27,7 @@ test('the head of a section shows the way up as a path that is not the current p
 // Text that a record's name could have: alone it is wider than the head's row.
 const long = 'A name that alone is wider than the head at every width a screen has, '.repeat(3)
 
-for (const width of [640, 1023, 1024, 1280]) {
+for (const width of [680, 1023, 1024, 1280]) {
   test(`at ${width} px, with long names, the path lies before the title and shows its link and its focus ring`, async ({
     page,
   }) => {
@@ -79,15 +79,26 @@ for (const width of [640, 1023, 1024, 1280]) {
   })
 }
 
-// The head's own width counts, less the 16 px it keeps free at each side.
+// The head's own width counts, less what it keeps free at each side: its padding, and the room for
+// a scrollbar, which differs from one system to the next.
 test('a head narrower than 36rem shows the title alone', async ({ page }) => {
-  await page.setViewportSize({ width: 607, height: 600 })
+  await page.setViewportSize({ width: 560, height: 600 })
   await page.goto('/foundation/palettes')
+  const head = page.getByRole('banner')
+  const inner = () =>
+    head.evaluate((box) => {
+      const { paddingLeft, paddingRight } = getComputedStyle(box)
+      return box.clientWidth - parseFloat(paddingLeft) - parseFloat(paddingRight)
+    })
   await expect(path(page)).toHaveCount(0)
-  await expect(page.getByRole('banner').getByRole('link', { includeHidden: true })).toBeHidden()
+  await expect(head.getByRole('link', { includeHidden: true })).toBeHidden()
 
-  await page.setViewportSize({ width: 608, height: 600 })
-  await expect(path(page)).toBeVisible()
+  // From 640 px the head keeps more free: its own width falls there once more.
+  for (const width of [600, 632, 640, 648, 700]) {
+    await page.setViewportSize({ width, height: 600 })
+    await expect(path(page)).toHaveCount((await inner()) < 576 ? 0 : 1)
+  }
+  expect(await inner()).toBeGreaterThanOrEqual(576)
 })
 
 test('so does a head that the navigation beside it leaves less than that', async ({ page }) => {
