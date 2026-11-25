@@ -10,7 +10,7 @@ import UButton from '@nuxt/ui/components/Button.vue'
 <template>
   <div class="flex flex-wrap items-center justify-center gap-2">
     <UButton label="Download" :icon="icon.download" color="primary" />
-    <UButton label="Next" :trailing-icon="icon.arrowRight" color="primary" />
+    <UButton label="Next" :trailing-icon="icon.arrowRight" variant="outline" />
     <UButton label="Print" :icon="icon.print" variant="outline" />
   </div>
 </template>

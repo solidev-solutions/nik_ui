@@ -6,6 +6,16 @@ export interface Example {
   ports?: string[]
 }
 
+/** What an agent follows when it uses a member. It reads every line to the letter. */
+export interface Guidelines {
+  /** What the member is for. */
+  use: string[]
+  /** What it is not for, each with the part to take instead, by its name. */
+  instead: { when: string; take: string }[]
+  /** A case and what to take in it. What stands between backticks there is code. */
+  rules: { when: string; take: string }[]
+}
+
 export interface Member {
   /** A component of Nuxt UI. */
   name: string

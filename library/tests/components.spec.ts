@@ -1,9 +1,17 @@
-import { readdirSync, readFileSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 
 import { FAMILIES, GROUPS } from '../src/areas/components/families.ts'
+import type { Guidelines } from '../src/areas/components/types.ts'
 import { expect, test } from './library.ts'
 
 const folders = new URL('../src/areas/components/families/', import.meta.url)
+const guidelines: Record<string, Record<string, Guidelines>> = {}
+for (const family of FAMILIES) {
+  const file: { default: Record<string, Guidelines> } = await import(
+    new URL(`${family.id}/guidelines.ts`, folders).href
+  )
+  guidelines[family.id] = file.default
+}
 const examples = FAMILIES.flatMap((family) =>
   family.members.flatMap((member) =>
     member.examples.map((example) => ({
@@ -28,6 +36,30 @@ test('every folder is a family of the list, every example a family declares is a
       .map((file) => new URL(`${folder.name}/${file}`, folders).href),
   )
   expect(found.sort()).toEqual(examples.map((example) => example.file.href).sort())
+})
+
+// A member's guidelines are found by its name, and the part to take instead by a member's: neither
+// is checked when the library is built.
+test('every member has its guidelines, and every part to take instead is one that a family, Nuxt UI or the kit has', () => {
+  const members = FAMILIES.flatMap((family) => family.members.map((member) => member.name))
+  expect(new Set(members).size).toBe(members.length)
+  const components = ['../../node_modules/@nuxt/ui/dist/runtime/components/', '../../src/kit/']
+  for (const family of FAMILIES) {
+    expect(Object.keys(guidelines[family.id]!).sort()).toEqual(
+      family.members.map((member) => member.name).sort(),
+    )
+    for (const [member, { use, instead, rules }] of Object.entries(guidelines[family.id]!)) {
+      for (const lines of [use, instead, rules]) expect(lines.length, member).toBeGreaterThan(0)
+      // Code stands between two backticks.
+      for (const { take } of rules) expect(take.split('`').length % 2, take).toBe(1)
+      for (const { take } of instead) {
+        const has = components.some((folder) =>
+          existsSync(new URL(`${folder}${take}.vue`, import.meta.url)),
+        )
+        expect(members.includes(take) || has, take).toBe(true)
+      }
+    }
+  }
 })
 
 // Of ReUI only its components and its `c-` examples are free to port.
@@ -132,6 +164,27 @@ test.describe('with the clipboard allowed', () => {
   })
 })
 
+test.describe('with less motion asked for', () => {
+  test.use({ contextOptions: { reducedMotion: 'reduce' } })
+
+  test('a member’s AI Guidelines open at once', async ({ page }) => {
+    await page.goto(`/components/${FAMILIES[0]!.id}`)
+    const main = page.getByRole('main')
+    await main
+      .getByRole('button', { name: /^AI Guidelines: / })
+      .first()
+      .click()
+    await expect(main.getByRole('group', { name: /^AI Guidelines: / })).toBeVisible()
+    // What moves on without an end is a loading button's icon.
+    const moving = await main.evaluate((main) =>
+      main
+        .getAnimations({ subtree: true })
+        .filter((animation) => animation.effect?.getComputedTiming().endTime !== Infinity),
+    )
+    expect(moving).toHaveLength(0)
+  })
+})
+
 test('a family the Components do not have leads back to the Components', async ({ page }) => {
   await page.goto('/components/nothing')
   await expect(page).toHaveURL('/components')
@@ -166,6 +219,37 @@ for (const family of FAMILIES) {
             section.getByRole('link', { name: `ReUI: ${port}`, exact: true }),
           ).toHaveAttribute('href', new RegExp(`^https://reui\\.io/components/.+/${port}$`))
       }
+    }
+  })
+}
+
+for (const family of FAMILIES) {
+  test(`/components/${family.id} keeps every member’s AI Guidelines closed at first, a press shows that member’s lines, and a second press hides them`, async ({
+    page,
+  }) => {
+    await page.goto(`/components/${family.id}`)
+    const main = page.getByRole('main')
+
+    for (const member of family.members) {
+      const name = `AI Guidelines: ${member.name}`
+      const button = (expanded: boolean) =>
+        main.getByRole('button', { name, exact: true, expanded })
+      const block = main.getByRole('group', { name, exact: true })
+      const { use, instead, rules } = guidelines[family.id]![member.name]!
+
+      await expect(block).toHaveCount(0)
+      await button(false).click()
+      await expect(button(true)).toBeFocused()
+      await expect(block.getByRole('term')).toHaveText(['Use for', 'Not for', 'Rules'])
+      await expect(block.getByRole('listitem')).toHaveText([
+        ...use,
+        ...instead.map(({ when, take }) => `${when}: ${take}`),
+        ...rules.map(({ when, take }) => `${when}: ${take.replaceAll('`', '')}`),
+      ])
+
+      await button(true).click()
+      await expect(button(false)).toBeFocused()
+      await expect(block).toHaveCount(0)
     }
   })
 }

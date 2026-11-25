@@ -10,8 +10,8 @@ import UButton from '@nuxt/ui/components/Button.vue'
   <div class="flex flex-wrap items-center justify-center gap-2">
     <UButton label="Save" color="primary" />
     <UButton label="Export" variant="outline" />
-    <UButton label="Cancel" variant="ghost" />
-    <UButton label="Details" color="primary" variant="link" />
+    <UButton label="Edit" variant="ghost" />
+    <UButton label="Details" color="primary" variant="link" to="/components/buttons-and-links" />
     <UButton label="Delete" color="error" variant="soft" />
   </div>
 </template>

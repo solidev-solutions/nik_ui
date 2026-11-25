@@ -51,6 +51,16 @@ export const router = createRouter({
     },
     { path: '/:unknown(.*)*', redirect: { name: 'home' } },
   ],
+  // A page scrolls inside its panel, which the router's own scrolling does not reach. A link into
+  // a page leads to its target, and the focus goes with it, as where a browser follows such a
+  // link; another page begins at its top, also where the panel stays for it.
+  scrollBehavior(to, from) {
+    const target = to.hash && document.getElementById(to.hash.slice(1))
+    if (target) {
+      target.scrollIntoView()
+      target.focus({ preventScroll: true })
+    } else if (to.path !== from.path) document.querySelector('main')?.parentElement?.scrollTo(0, 0)
+  },
 })
 
 // For every way into a page below an area's own: a guard of the route would not run where only

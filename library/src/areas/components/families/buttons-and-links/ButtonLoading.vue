@@ -10,7 +10,7 @@ const save = () => new Promise<void>((resolve) => setTimeout(resolve, 900))
 
 <template>
   <div class="flex flex-wrap items-center justify-center gap-2">
-    <UButton label="Please wait" color="primary" loading />
+    <UButton label="Export" variant="outline" loading />
     <UButton label="Save changes" color="primary" loading-auto @click="save" />
   </div>
 </template>
