@@ -84,3 +84,16 @@ test('below 1024 px the menu offers the same destinations and closes once one is
   await expect(menu).toBeHidden()
   await expect(page.getByRole('heading', { level: 1, name: 'Foundation' })).toBeVisible()
 })
+
+test('the menu closes where the window grows to 1024 px, and the page takes a click again', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 800, height: 768 })
+  await page.goto('/')
+  await expect(await openMenu(page)).toBeVisible()
+
+  await page.setViewportSize({ width: 1200, height: 768 })
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await rail(page).getByRole('link', { name: 'Components' }).click()
+  await expect(page.getByRole('heading', { level: 1, name: 'Components' })).toBeVisible()
+})
