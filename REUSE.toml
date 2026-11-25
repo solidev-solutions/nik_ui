@@ -1,10 +1,10 @@
 version = 1
 
-# Configuration, project text and the tests belong to this repository as a whole. A file in src/
-# is not listed here: it names its copyright holders and its license in its first lines, so a
-# port carries the name of its original.
+# Configuration, project text, the library and the tests belong to this repository as a whole. A
+# file in src/ is not listed here: it names its copyright holders and its license in its first
+# lines, so a port carries the name of its original.
 [[annotations]]
-path = ["*", ".github/**", ".claude/**", "test/**"]
+path = ["*", ".github/**", ".claude/**", "library/**", "test/**"]
 SPDX-FileCopyrightText = "2026 Solidev - Thomas Liska"
 SPDX-License-Identifier = "MIT"
 

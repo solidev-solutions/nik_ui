@@ -26,7 +26,10 @@ export const nikTheme = {
       neutral: 'stone',
     } as const,
     icons,
-    sidebar,
+    // An override is the `ui` of plugin options in a file of its own, where `satisfies` checks it.
+    // Checked against the options' `ui` alone, it would turn `any` wherever Nuxt UI's generated
+    // types do not resolve, as in this package's build.
+    ...sidebar,
     ...dashboard,
   },
   icon: {

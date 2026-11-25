@@ -45,9 +45,19 @@ import AppFrame from '@nichtimkopf/ui/kit/AppFrame.vue'
 
 The theme's stylesheet brings the component's classes into your CSS, so your app adds no `@source` for it.
 
+## Library
+
+The library is a Vue app in `library/` that shows the theme and the kit page by page. It uses the package by its name, as your app does. Run it with:
+
+```sh
+npm run library:dev
+```
+
+The command builds the package first, and the library shows what was built: run it again after a change in `src/`.
+
 ## Contributing
 
-Pull requests target the `main` branch. Run `npm ci` and `pre-commit install` once, then the checks run on every commit.
+Pull requests target the `main` branch. Run `npm ci`, `pre-commit install` and `npx playwright install chromium` once, then the checks run on every commit. The browser is the one the library is tested in.
 
 ## License
 

@@ -3,6 +3,9 @@ dist
 *.log
 .DS_Store
 
+# What Playwright writes when it tests the library
+test-results
+
 # Editor directories and files
 .vscode
 .idea

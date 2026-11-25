@@ -32,5 +32,9 @@ jobs:
       - name: Install
         run: npm ci --ignore-scripts
 
+      # The library is tested in it.
+      - name: Install the browser
+        run: npx playwright install --with-deps chromium
+
       # Every check is a hook in .pre-commit-config.yaml, so this runs what a commit runs.
       - uses: pre-commit/action@v3.0.1

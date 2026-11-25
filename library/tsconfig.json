@@ -1,0 +1,20 @@
+{
+  "extends": "../tsconfig.json",
+  "files": ["node_modules/.nuxt-ui/ui/index.ts"],
+  "include": [
+    "src/**/*",
+    "src/**/*.vue",
+    "tests/**/*",
+    "*.config.ts",
+    "../src/kit/**/*",
+    "../src/kit/**/*.vue",
+    "../src/theme/**/*"
+  ],
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "paths": {
+      "#build/ui": ["./node_modules/.nuxt-ui/ui"],
+      "#build/ui/*": ["./node_modules/.nuxt-ui/ui/*"]
+    }
+  }
+}
