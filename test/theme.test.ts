@@ -204,6 +204,13 @@ test('every part that lies above the page stands on the raised surface', () => {
   expect(card.variants.variant.outline.root).toBe('bg-raised')
 })
 
+test('a dialog, a slideover and a drawer dim the page under them with the overlay role', () => {
+  const { modal, slideover, drawer } = nikTheme.ui
+  expect(modal.variants.overlay.true.overlay).toBe('bg-overlay')
+  expect(slideover.slots.overlay).toBe('bg-overlay')
+  expect(drawer.slots.overlay).toBe('bg-overlay')
+})
+
 test('the script carries the prop defaults the app hands to UTheme', () => {
   expect(script).toMatch(/slideover:\s*\{\s*inset:\s*(!0|true)\s*\}/)
   expect(script).toMatch(/tooltip:\s*\{\s*delayDuration:\s*300\b/)

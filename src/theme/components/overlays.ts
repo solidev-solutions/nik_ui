@@ -15,8 +15,10 @@ export const { ui: overlays } = {
     dropdownMenu: raised,
     contextMenu: raised,
     popover: raised,
-    modal: raised,
-    drawer: raised,
+    // Nuxt UI dims the page under a dialog and a drawer with the elevated background, which is a
+    // faint tint in this theme: the overlay role dims it, as under the slideover.
+    modal: { ...raised, variants: { overlay: { true: { overlay: 'bg-overlay' } } } },
+    drawer: { slots: { overlay: 'bg-overlay', content: 'bg-raised' } },
     card: { variants: { variant: { outline: { root: 'bg-raised' } } } },
     slideover: {
       slots: { overlay: 'bg-overlay', content: 'bg-raised', title: 'text-base' },
