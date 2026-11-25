@@ -1,6 +1,7 @@
 import type { NavigationMenuItem } from '@nuxt/ui/components/NavigationMenu.vue'
 import type { RouteComponent } from 'vue-router'
 
+import { GROUPS as FAMILY_GROUPS } from './areas/components/families.ts'
 import { GROUPS } from './areas/foundation/sections.ts'
 
 export const LIBRARY = 'NichtImKopf UI'
@@ -38,5 +39,13 @@ export const AREAS: Area[] = [
     description: 'The parts, family by family',
     icon: 'i-hugeicons-puzzle',
     page: () => import('./areas/components/ComponentsPage.vue'),
+    navigation: FAMILY_GROUPS.map((group) => [
+      { label: group.label, type: 'label' },
+      ...group.families.map((family) => ({
+        label: family.label,
+        icon: family.icon,
+        to: { name: 'family', params: { family: family.id } },
+      })),
+    ]),
   },
 ]

@@ -145,8 +145,8 @@ test('beside a page of the Foundation its navigation lists the pages under their
     '',
   )
 
-  await rail(page).getByRole('link', { name: 'Components' }).click()
-  await expect(page.getByRole('heading', { level: 1, name: 'Components' })).toBeVisible()
+  await rail(page).getByRole('link', { name: 'home' }).click()
+  await expect(page.getByRole('heading', { level: 1, name: LIBRARY })).toBeVisible()
   // The rail's is the only navigation left.
   await expect(page.getByRole('navigation')).toHaveCount(1)
 })

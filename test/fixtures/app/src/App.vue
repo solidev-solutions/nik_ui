@@ -5,6 +5,7 @@ import CatalogCard from '@nichtimkopf/ui/kit/CatalogCard.vue'
 import Frame from '@nichtimkopf/ui/kit/Frame.vue'
 import FrameDescription from '@nichtimkopf/ui/kit/FrameDescription.vue'
 import FrameFooter from '@nichtimkopf/ui/kit/FrameFooter.vue'
+import FrameHeader from '@nichtimkopf/ui/kit/FrameHeader.vue'
 import FramePanel from '@nichtimkopf/ui/kit/FramePanel.vue'
 import FrameTitle from '@nichtimkopf/ui/kit/FrameTitle.vue'
 import IconStack from '@nichtimkopf/ui/kit/IconStack.vue'
@@ -38,6 +39,7 @@ import UTheme from '@nuxt/ui/components/Theme.vue'
           <UButton label="Button" />
           <CatalogCard to="/" label="Card" description="One line" :icon="icon.home" />
           <Frame class="w-64">
+            <FrameHeader><FrameTitle>Header</FrameTitle></FrameHeader>
             <FramePanel class="grid place-items-center"><IconStack :icon="icon.home" /></FramePanel>
             <FrameFooter>
               <FrameTitle>Title</FrameTitle>

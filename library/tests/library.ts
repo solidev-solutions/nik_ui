@@ -1,12 +1,14 @@
 import { expect, test as base, type Page } from '@playwright/test'
 
 import { AREAS, LIBRARY } from '../src/areas.ts'
+import { FAMILIES } from '../src/areas/components/families.ts'
 import { SECTIONS } from '../src/areas/foundation/sections.ts'
 
 export const pages = [
   '/',
   ...AREAS.map((area) => `/${area.id}`),
   ...SECTIONS.map((section) => `/foundation/${section.id}`),
+  ...FAMILIES.map((family) => `/components/${family.id}`),
 ]
 
 /**
@@ -59,12 +61,20 @@ export async function showWhole(page: Page) {
 
 /**
  * Waits for a page's content. A Foundation page's content comes in a file of its own, after its
- * head: every one of them begins with a group's heading.
+ * head: every one of them begins with a group's heading. A family's examples come each in a file
+ * of its own: until then an example's group is empty.
  */
 export async function content(page: Page, path: string) {
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   if (path.startsWith('/foundation/'))
     await page.getByRole('main').getByRole('heading', { level: 2 }).first().waitFor()
+  if (path.startsWith('/components/')) {
+    const empty = page
+      .getByRole('main')
+      .getByRole('group')
+      .filter({ hasNot: page.locator('*') })
+    await expect(empty).toHaveCount(0)
+  }
 }
 
 export { expect }
