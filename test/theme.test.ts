@@ -201,6 +201,10 @@ test('every part that lies above the page stands on the raised surface', () => {
   for (const part of [tooltip, dropdownMenu, contextMenu, popover, modal, slideover, drawer]) {
     expect(part.slots.content).toContain('bg-raised')
   }
+  // Of these a reader can ask for an arrow, which is of the surface too.
+  for (const part of [tooltip, dropdownMenu, popover]) {
+    expect(part.slots.arrow).toBe('fill-(--ui-bg-raised)')
+  }
   expect(card.variants.variant.outline.root).toBe('bg-raised')
 })
 

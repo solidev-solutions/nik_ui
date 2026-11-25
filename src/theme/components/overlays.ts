@@ -12,9 +12,9 @@ const pointing = { slots: { ...raised.slots, arrow: 'fill-(--ui-bg-raised)' } }
 export const { ui: overlays } = {
   ui: {
     tooltip: pointing,
-    dropdownMenu: raised,
+    dropdownMenu: pointing,
     contextMenu: raised,
-    popover: raised,
+    popover: pointing,
     // Nuxt UI dims the page under a dialog and a drawer with the elevated background, which is a
     // faint tint in this theme: the overlay role dims it, as under the slideover.
     modal: { ...raised, variants: { overlay: { true: { overlay: 'bg-overlay' } } } },
