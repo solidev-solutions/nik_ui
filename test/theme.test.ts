@@ -177,17 +177,20 @@ test('the stylesheet and the script carry the navigation menu’s override', () 
   expect(script).toContain('hover:before:bg-hover')
 })
 
-test('the stylesheet and the script carry the overrides of button, link and kbd', () => {
+test('the stylesheet and the script carry the overrides of button, link, kbd and collapsible', () => {
   // Of each a class that nothing else names.
   for (const name of [
     'active:not-disabled:not-aria-disabled:not-aria-[haspopup]:[transform:translateY(1px)]',
     'decoration-dimmed',
     'normal-case',
+    'motion-reduce:data-[state=open]:animate-none',
+    'motion-reduce:data-[state=closed]:animate-none',
   ]) {
     expect(css).toContain(selector(name))
   }
   expect(script).toContain('[transform:translateY(1px)]')
   expect(script).toContain('decoration-dimmed')
+  expect(script).toContain('motion-reduce:data-[state=open]:animate-none')
   // The script holds the kbd's class a second time, in the list that tells conflicting classes
   // apart: the pattern is that of the configuration.
   expect(script).toMatch(/\bkbd:\s*\{\s*base:\s*["'`]normal-case["'`]/)

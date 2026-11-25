@@ -4,6 +4,7 @@
 import type { NuxtUIOptions } from '@nuxt/ui/vite'
 
 import { button } from './components/button.js'
+import { collapsible } from './components/collapsible.js'
 import { dashboard } from './components/dashboard.js'
 import { kbd } from './components/kbd.js'
 import { link } from './components/link.js'
@@ -41,6 +42,7 @@ export const nikTheme = {
     ...button,
     ...link,
     ...kbd,
+    ...collapsible,
   },
   icon: {
     clientBundle: {

@@ -7,6 +7,8 @@ import LibraryPage from '../../shell/LibraryPage.vue'
 import PageNeighbors from '../../shell/PageNeighbors.vue'
 import ExampleFrame from './ExampleFrame.vue'
 import { familyOf } from './families.ts'
+import MemberGuidelines from './MemberGuidelines.vue'
+import { guidelinesOf } from './views.ts'
 
 const props = defineProps<{ family: string }>()
 // The router lets in only a family that exists, and only below its area.
@@ -21,7 +23,8 @@ const DOCS = 'https://ui.nuxt.com/docs/components/'
   <LibraryPage :title="family.label" :parents="parents">
     <section v-for="member in family.members" :key="member.name" class="flex flex-col gap-4">
       <div class="flex flex-wrap items-baseline justify-between gap-x-4">
-        <h2 class="text-base font-semibold">{{ member.name }}</h2>
+        <!-- Where a link to the member arrives, with the focus. -->
+        <h2 :id="member.name" tabindex="-1" class="text-base font-semibold">{{ member.name }}</h2>
         <ULink
           :to="DOCS + member.docs"
           target="_blank"
@@ -32,6 +35,10 @@ const DOCS = 'https://ui.nuxt.com/docs/components/'
         </ULink>
       </div>
       <div class="flex flex-col gap-6">
+        <MemberGuidelines
+          :member="member.name"
+          :guidelines="guidelinesOf(family.id, member.name)"
+        />
         <ExampleFrame
           v-for="example in member.examples"
           :key="example.id"

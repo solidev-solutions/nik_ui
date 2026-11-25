@@ -20,3 +20,34 @@ test.describe('with the clipboard allowed', () => {
     }
   })
 })
+
+// FieldGroup and Link are members of this family; the library shows no Switch yet.
+test('a part to take instead of a Button leads to that part where the library shows it, and is plain text where it does not', async ({
+  page,
+}) => {
+  await page.goto('/components/buttons-and-links')
+  const main = page.getByRole('main')
+  await main.getByRole('button', { name: 'AI Guidelines: Button', exact: true }).click()
+  const block = main.getByRole('group', { name: 'AI Guidelines: Button', exact: true })
+  await expect(block.getByRole('listitem').filter({ hasText: 'Switch' })).toBeVisible()
+  await expect(block.getByRole('link')).toHaveText(['FieldGroup', 'Link'])
+
+  await block.getByRole('link', { name: 'FieldGroup', exact: true }).click()
+  await expect(page).toHaveURL('/components/buttons-and-links#FieldGroup')
+  const part = main.getByRole('heading', { level: 2, name: 'FieldGroup', exact: true })
+  await expect(part).toBeInViewport()
+  await expect(part).toBeFocused()
+})
+
+test('a move to a part of the page is not announced as a change of page, whatever the address ends in', async ({
+  page,
+}) => {
+  await page.goto('/components/buttons-and-links/')
+  const main = page.getByRole('main')
+  await main.getByRole('button', { name: 'AI Guidelines: Button', exact: true }).click()
+  await main.getByRole('link', { name: 'FieldGroup', exact: true }).click()
+  await expect(main.getByRole('heading', { level: 2, name: 'FieldGroup' })).toBeFocused()
+  // The line is filled a moment after a change of page.
+  await page.waitForTimeout(250)
+  await expect(page.getByRole('status')).toBeEmpty()
+})
