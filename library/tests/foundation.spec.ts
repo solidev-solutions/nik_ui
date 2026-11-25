@@ -42,3 +42,30 @@ test('a path the library does not have leads to the start page', async ({ page }
   await expect(page).toHaveURL('/')
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(LIBRARY)
 })
+
+// At 1024 px the navigation stands beside the page and takes a part of its width.
+test('beside the navigation a card keeps its art whole and its row full', async ({ page }) => {
+  await page.setViewportSize({ width: 1024, height: 768 })
+  await page.goto('/foundation')
+  const main = page.getByRole('main')
+  await expect(main.getByRole('listitem').first()).toBeVisible()
+  const cut = await main
+    .getByRole('listitem')
+    .evaluateAll(
+      (cards) =>
+        cards.filter((card) =>
+          [...card.querySelectorAll('*')].some(
+            (box) =>
+              getComputedStyle(box).overflowY === 'hidden' && box.scrollHeight > box.clientHeight,
+          ),
+        ).length,
+    )
+  expect(cut).toBe(0)
+
+  // The cards of a group share their row to its end.
+  for (const row of await main.getByRole('list').all()) {
+    const { x, width } = (await row.boundingBox())!
+    const last = (await row.getByRole('listitem').last().boundingBox())!
+    expect(last.x + last.width).toBeCloseTo(x + width, 0)
+  }
+})

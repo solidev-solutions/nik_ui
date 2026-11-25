@@ -55,19 +55,33 @@ test.describe('with reduced motion', () => {
     await page.goto('/foundation/palettes')
     const { x, y, width, height } = (await line(page).boundingBox())!
     const [onLine, across] = [x + width / 2, y + height / 2]
-    // The navigation is at its least width: the line stays where it is while the pointer leaves it.
+    // Up along the line and off its end, into the frame's edge: no step to a side, which alone
+    // would make the press a drag.
     await page.mouse.move(onLine, across)
     await page.mouse.down()
-    await page.mouse.move(onLine - 80, across, { steps: 4 })
-    // While its navigation is dragged the line keeps the primary color, away from the pointer too.
-    await expect(line(page)).toHaveCSS('background-color', await color(page, '--ui-primary'))
+    await page.mouse.move(onLine, 2, { steps: 4 })
     await page.mouse.up()
 
-    await page.mouse.move(onLine + 200, across)
+    // The next press begins there, off the line, and ends on it: the way back, again without a
+    // step to a side.
     await page.mouse.down()
     await page.mouse.move(onLine, across, { steps: 4 })
     await page.mouse.up()
     await expect(sidebar(page)).toHaveCSS('width', '208px')
+  })
+
+  test('while its navigation is dragged the line keeps the primary color, away from the pointer too', async ({
+    page,
+  }) => {
+    await page.goto('/foundation/palettes')
+    const { x, y, width, height } = (await line(page).boundingBox())!
+    const [onLine, across] = [x + width / 2, y + height / 2]
+    // The navigation is at its least width: the line stays where it is while the pointer leaves it.
+    await page.mouse.move(onLine, across)
+    await page.mouse.down()
+    await page.mouse.move(onLine - 80, across, { steps: 4 })
+    await expect(line(page)).toHaveCSS('background-color', await color(page, '--ui-primary'))
+    await page.mouse.up()
   })
 
   test('a drag that comes back to where it began does not fold the navigation', async ({
