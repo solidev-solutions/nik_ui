@@ -38,6 +38,10 @@ jobs:
         working-directory: .github/release
         run: npm ci --ignore-scripts
 
+      # npm builds the package as it packs it, with the tools the root lockfile fixes.
+      - name: Install build tools
+        run: npm ci --ignore-scripts
+
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ github.token }}

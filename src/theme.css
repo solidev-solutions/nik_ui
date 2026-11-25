@@ -1,0 +1,248 @@
+/* SPDX-FileCopyrightText: 2026 Solidev - Thomas Liska */
+/* SPDX-FileCopyrightText: 2024 Doğukan Çavuş */
+/* SPDX-License-Identifier: MIT */
+
+/* Only the values that differ from Tailwind's and Nuxt UI's. */
+
+/* Static: Nuxt UI points at these steps by variable, and no class names them. */
+@theme static {
+  --color-walnut-50: oklch(97.5% 0.008 60deg);
+  --color-walnut-100: oklch(94.5% 0.015 58deg);
+  --color-walnut-200: oklch(89% 0.026 57deg);
+  --color-walnut-300: oklch(81.5% 0.037 57deg);
+  --color-walnut-400: #b89a84;
+  --color-walnut-500: oklch(61% 0.055 56deg);
+  --color-walnut-600: oklch(52.5% 0.058 55.6deg);
+  --color-walnut-700: #6f4e37;
+  --color-walnut-800: oklch(38% 0.049 55deg);
+  --color-walnut-900: oklch(31% 0.039 54deg);
+  --color-walnut-950: oklch(21% 0.025 52deg);
+
+  /* The four palettes the status colors take, whole, in place of Tailwind's of the same names:
+     AlignUI's scales (see NOTICE). */
+  --color-green-50: #e3f7ec;
+  --color-green-100: #d6f5e8;
+  --color-green-200: #c2f5da;
+  --color-green-300: #84ebb4;
+  --color-green-400: #3ee089;
+  --color-green-500: #1fc16b;
+  --color-green-600: #1daf61;
+  --color-green-700: #178c4e;
+  --color-green-800: #1a7544;
+  --color-green-900: #16643b;
+  --color-green-950: #0b4627;
+  --color-blue-50: #ebf1ff;
+  --color-blue-100: #d5e2ff;
+  --color-blue-200: #c0d5ff;
+  --color-blue-300: #97baff;
+  --color-blue-400: #4d82ff;
+  --color-blue-500: #335cff;
+  --color-blue-600: #3559e9;
+  --color-blue-700: #2547d0;
+  --color-blue-800: #1f3bad;
+  --color-blue-900: #182f8b;
+  --color-blue-950: #122368;
+  --color-orange-50: #fff3eb;
+  --color-orange-100: #ffe6d5;
+  --color-orange-200: #ffd9c0;
+  --color-orange-300: #ffc197;
+  --color-orange-400: #ffa468;
+  --color-orange-500: #fa7319;
+  --color-orange-600: #e16614;
+  --color-orange-700: #ce5e12;
+  --color-orange-800: #b75310;
+  --color-orange-900: #96440d;
+  --color-orange-950: #71330a;
+  --color-red-50: #ffebec;
+  --color-red-100: #ffd5d8;
+  --color-red-200: #ffc0c5;
+  --color-red-300: #ff97a0;
+  --color-red-400: #ff6875;
+  --color-red-500: #fb3748;
+  --color-red-600: #e93544;
+  --color-red-700: #d02533;
+  --color-red-800: #ad1f2b;
+  --color-red-900: #8b1822;
+  --color-red-950: #681219;
+}
+
+/* These rules sit outside Nuxt UI's layer: a role set here for the light theme holds in the dark
+   one too, unless it is set there as well. They name what Nuxt UI's own rule names, the host of a
+   shadow root among it: there Nuxt UI's values would stand alone. */
+:root,
+:host,
+.light {
+  --ui-primary: var(--ui-color-primary-700);
+
+  /* A status's base (icon, dot, fill), and its dark text, light edge and lighter surface. */
+  --ui-success: var(--ui-color-success-600);
+  --ui-success-dark: var(--ui-color-success-950);
+  --ui-success-light: var(--ui-color-success-200);
+  --ui-success-lighter: var(--ui-color-success-50);
+  --ui-info: var(--ui-color-info-500);
+  --ui-info-dark: var(--ui-color-info-950);
+  --ui-info-light: var(--ui-color-info-200);
+  --ui-info-lighter: var(--ui-color-info-50);
+  --ui-warning: var(--ui-color-warning-500);
+  --ui-warning-dark: var(--ui-color-warning-950);
+  --ui-warning-light: var(--ui-color-warning-200);
+  --ui-warning-lighter: var(--ui-color-warning-50);
+  --ui-error: var(--ui-color-error-500);
+  --ui-error-dark: var(--ui-color-error-950);
+  --ui-error-light: var(--ui-color-error-200);
+  --ui-error-lighter: var(--ui-color-error-50);
+  --ui-error-text: var(--ui-color-error-700);
+  --ui-text: var(--ui-text-highlighted);
+
+  /* The lightest gray that holds 4.5:1 on every surface, a hover and the current item included. */
+  --ui-text-muted: color-mix(
+    in oklab,
+    var(--ui-color-neutral-500),
+    var(--ui-color-neutral-600) 35%
+  );
+
+  /* The lightest gray that holds 3:1 on every ground and a hover. */
+  --ui-text-dimmed: color-mix(
+    in oklab,
+    var(--ui-color-neutral-400),
+    var(--ui-color-neutral-500) 50%
+  );
+  --ui-border-field: var(--ui-text-dimmed);
+  --ui-bg-hover: color-mix(in oklab, var(--ui-bg-inverted) 5%, transparent);
+  --ui-bg-selected: color-mix(in oklab, var(--ui-bg-inverted) 8%, transparent);
+  --ui-bg-elevated: color-mix(in oklab, var(--ui-bg-inverted) 6%, transparent);
+  --ui-bg-accented: color-mix(in oklab, var(--ui-bg-inverted) 12%, transparent);
+  --ui-bg-raised: var(--ui-bg);
+  --ui-bg-overlay: color-mix(in oklab, var(--ui-color-neutral-950) 40%, transparent);
+
+  /* Nuxt UI's prose draws its edges in this role. */
+  --ui-border-muted: var(--ui-border);
+
+  /* A category's lightness and chroma: its surface, that surface under the pointer, and its
+     text at 6.6:1 or more. */
+  --ui-category-surface: 94% 0.035;
+  --ui-category-hover: 90.5% 0.053;
+  --ui-category-text: 42% 0.11;
+
+  /* Without a category: the accented fill and its step under the pointer, on the surface instead
+     of see-through, so no line behind an entry shows in it. */
+  --ui-category-neutral: color-mix(in oklab, var(--ui-bg-inverted) 12%, var(--ui-bg));
+  --ui-category-neutral-hover: color-mix(in oklab, var(--ui-bg-inverted) 20%, var(--ui-bg));
+}
+
+.dark {
+  --ui-primary: var(--ui-color-primary-400);
+  --ui-success-dark: var(--ui-color-success-200);
+  --ui-success-light: color-mix(in oklab, var(--ui-success) 30%, transparent);
+  --ui-success-lighter: color-mix(in oklab, var(--ui-success) 15%, transparent);
+  --ui-info-dark: var(--ui-color-info-200);
+  --ui-info-light: color-mix(in oklab, var(--ui-info) 30%, transparent);
+  --ui-info-lighter: color-mix(in oklab, var(--ui-info) 15%, transparent);
+  --ui-warning-dark: var(--ui-color-warning-200);
+  --ui-warning-light: color-mix(in oklab, var(--ui-warning) 30%, transparent);
+  --ui-warning-lighter: color-mix(in oklab, var(--ui-warning) 15%, transparent);
+  --ui-error-dark: var(--ui-color-error-200);
+  --ui-error-light: color-mix(in oklab, var(--ui-error) 30%, transparent);
+  --ui-error-lighter: color-mix(in oklab, var(--ui-error) 15%, transparent);
+  --ui-error-text: var(--ui-color-error-200);
+  --ui-text-highlighted: color-mix(
+    in oklab,
+    var(--ui-color-neutral-100),
+    var(--ui-color-neutral-200) 80%
+  );
+  --ui-text-muted: var(--ui-color-neutral-400);
+
+  /* The darkest gray that holds 3:1 on the raised surface too. */
+  --ui-text-dimmed: color-mix(
+    in oklab,
+    var(--ui-color-neutral-500),
+    var(--ui-color-neutral-400) 25%
+  );
+  --ui-bg-elevated: color-mix(in oklab, var(--ui-bg-inverted) 7%, transparent);
+  --ui-bg-accented: color-mix(in oklab, var(--ui-bg-inverted) 13%, transparent);
+
+  /* In the dark, lighter means nearer: the ground lies a step above the page, not below it. */
+  --ui-bg-muted: color-mix(in oklab, var(--ui-color-neutral-900), var(--ui-color-neutral-800) 55%);
+  --ui-bg-raised: color-mix(in oklab, var(--ui-color-neutral-800), var(--ui-color-neutral-700) 55%);
+  --ui-bg-overlay: color-mix(in oklab, var(--ui-color-neutral-950) 60%, transparent);
+  --ui-border: color-mix(in oklab, var(--ui-bg-inverted) 13%, transparent);
+  --ui-category-surface: 31% 0.05;
+  --ui-category-hover: 35% 0.07;
+  --ui-category-text: 86% 0.09;
+  --ui-category-neutral: color-mix(in oklab, var(--ui-bg-inverted) 13%, var(--ui-bg));
+  --ui-category-neutral-hover: color-mix(in oklab, var(--ui-bg-inverted) 21%, var(--ui-bg));
+
+  /* Worked out again from this theme's values: a dark part on the light page would inherit what
+     the light theme made of them. */
+  --ui-text: var(--ui-text-highlighted);
+  --ui-border-field: var(--ui-text-dimmed);
+  --ui-border-muted: var(--ui-border);
+  --ui-bg-hover: color-mix(in oklab, var(--ui-bg-inverted) 5%, transparent);
+  --ui-bg-selected: color-mix(in oklab, var(--ui-bg-inverted) 8%, transparent);
+
+  /* A status's base is one in both themes: set here again, a dark part on the light page takes it
+     too, where it would otherwise take Nuxt UI's for the dark. */
+  --ui-success: var(--ui-color-success-600);
+  --ui-info: var(--ui-color-info-500);
+  --ui-warning: var(--ui-color-warning-500);
+  --ui-error: var(--ui-color-error-500);
+}
+
+@theme inline {
+  --color-success-dark: var(--ui-success-dark);
+  --color-success-light: var(--ui-success-light);
+  --color-success-lighter: var(--ui-success-lighter);
+  --color-info-dark: var(--ui-info-dark);
+  --color-info-light: var(--ui-info-light);
+  --color-info-lighter: var(--ui-info-lighter);
+  --color-warning-dark: var(--ui-warning-dark);
+  --color-warning-light: var(--ui-warning-light);
+  --color-warning-lighter: var(--ui-warning-lighter);
+  --color-error-dark: var(--ui-error-dark);
+  --color-error-light: var(--ui-error-light);
+  --color-error-lighter: var(--ui-error-lighter);
+  --color-error-text: var(--ui-error-text);
+  --ring-color-field: var(--ui-border-field);
+  --background-color-hover: var(--ui-bg-hover);
+  --background-color-selected: var(--ui-bg-selected);
+  --background-color-raised: var(--ui-bg-raised);
+  --background-color-overlay: var(--ui-bg-overlay);
+  --color-category-neutral-surface: var(--ui-category-neutral);
+  --color-category-neutral-hover: var(--ui-category-neutral-hover);
+  --color-category-rose: oklch(var(--ui-category-text) 15);
+  --color-category-rose-surface: oklch(var(--ui-category-surface) 15);
+  --color-category-rose-hover: oklch(var(--ui-category-hover) 15);
+  --color-category-red: oklch(var(--ui-category-text) 28);
+  --color-category-red-surface: oklch(var(--ui-category-surface) 28);
+  --color-category-red-hover: oklch(var(--ui-category-hover) 28);
+  --color-category-orange: oklch(var(--ui-category-text) 55);
+  --color-category-orange-surface: oklch(var(--ui-category-surface) 55);
+  --color-category-orange-hover: oklch(var(--ui-category-hover) 55);
+  --color-category-amber: oklch(var(--ui-category-text) 80);
+  --color-category-amber-surface: oklch(var(--ui-category-surface) 80);
+  --color-category-amber-hover: oklch(var(--ui-category-hover) 80);
+  --color-category-lime: oklch(var(--ui-category-text) 125);
+  --color-category-lime-surface: oklch(var(--ui-category-surface) 125);
+  --color-category-lime-hover: oklch(var(--ui-category-hover) 125);
+  --color-category-green: oklch(var(--ui-category-text) 150);
+  --color-category-green-surface: oklch(var(--ui-category-surface) 150);
+  --color-category-green-hover: oklch(var(--ui-category-hover) 150);
+  --color-category-teal: oklch(var(--ui-category-text) 180);
+  --color-category-teal-surface: oklch(var(--ui-category-surface) 180);
+  --color-category-teal-hover: oklch(var(--ui-category-hover) 180);
+  --color-category-cyan: oklch(var(--ui-category-text) 210);
+  --color-category-cyan-surface: oklch(var(--ui-category-surface) 210);
+  --color-category-cyan-hover: oklch(var(--ui-category-hover) 210);
+  --color-category-blue: oklch(var(--ui-category-text) 250);
+  --color-category-blue-surface: oklch(var(--ui-category-surface) 250);
+  --color-category-blue-hover: oklch(var(--ui-category-hover) 250);
+  --color-category-indigo: oklch(var(--ui-category-text) 275);
+  --color-category-indigo-surface: oklch(var(--ui-category-surface) 275);
+  --color-category-indigo-hover: oklch(var(--ui-category-hover) 275);
+  --color-category-violet: oklch(var(--ui-category-text) 300);
+  --color-category-violet-surface: oklch(var(--ui-category-surface) 300);
+  --color-category-violet-hover: oklch(var(--ui-category-hover) 300);
+  --color-category-pink: oklch(var(--ui-category-text) 345);
+  --color-category-pink-surface: oklch(var(--ui-category-surface) 345);
+  --color-category-pink-hover: oklch(var(--ui-category-hover) 345);
+}

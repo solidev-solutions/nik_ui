@@ -1,9 +1,17 @@
 version = 1
 
-# Configuration and project text belong to this repository as a whole. A file in src/ is not
-# listed here: it names its copyright holders and its licence in its first lines, so a port
-# carries the name of its original.
+# Configuration, project text and the tests belong to this repository as a whole. A file in src/
+# is not listed here: it names its copyright holders and its license in its first lines, so a
+# port carries the name of its original.
 [[annotations]]
-path = ["*", ".github/**", ".claude/**"]
+path = ["*", ".github/**", ".claude/**", "test/**"]
+SPDX-FileCopyrightText = "2026 Solidev - Thomas Liska"
+SPDX-License-Identifier = "MIT"
+
+# The notice names the copyright holders of what was ported. Override: their lines would otherwise
+# be read as the notice's own.
+[[annotations]]
+path = "NOTICE"
+precedence = "override"
 SPDX-FileCopyrightText = "2026 Solidev - Thomas Liska"
 SPDX-License-Identifier = "MIT"
