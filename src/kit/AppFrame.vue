@@ -71,7 +71,8 @@ const followed = (event: MouseEvent) => {
 
     <div :class="styles.stage()">
       <div :class="styles.page()">
-        <!-- Folded it keeps 1 px: Nuxt UI starts a drag only on a sidebar that has a width. -->
+        <!-- Folded it keeps 1 px: Nuxt UI starts a drag only on a sidebar that has a width. Its
+             menu lies against the screen's edges, also in an app whose slideovers are inset. -->
         <UDashboardSidebar
           id="navigation"
           v-model:collapsed="collapsed"
@@ -82,6 +83,7 @@ const followed = (event: MouseEvent) => {
           :default-size="208"
           :min-size="208"
           :max-size="360"
+          :menu="{ inset: false }"
           :class="styles.navigation({ navigation: Boolean($slots.navigation) })"
           :ui="{ body: styles.navigationContent(), footer: styles.navigationContent() }"
         >
@@ -116,8 +118,8 @@ const followed = (event: MouseEvent) => {
     </div>
 
     <!-- Beside the page from 1280 px, where page and panel both keep a working width; below it
-         the panel lies over the page. Closed, Nuxt UI only moves it out of view, so `inert` keeps
-         the focus and a screen reader out of it. -->
+         the panel lies over the page, a card from 640 px and the whole screen below. Closed, Nuxt
+         UI only moves it out of view, so `inert` keeps the focus and a screen reader out of it. -->
     <USidebar
       v-if="$slots.panel"
       v-model:open="panel"
@@ -125,6 +127,7 @@ const followed = (event: MouseEvent) => {
       side="right"
       variant="floating"
       breakpoint="xl"
+      :menu="{ inset: true }"
       :title="panelLabel"
       close
       :aria-label="panelLabel"

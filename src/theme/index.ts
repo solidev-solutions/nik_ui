@@ -3,7 +3,10 @@
 
 import type { NuxtUIOptions } from '@nuxt/ui/vite'
 
+import { button } from './components/button.js'
 import { dashboard } from './components/dashboard.js'
+import { kbd } from './components/kbd.js'
+import { link } from './components/link.js'
 import { navigationMenu } from './components/navigation-menu.js'
 import { overlays } from './components/overlays.js'
 import { sidebar } from './components/sidebar.js'
@@ -35,6 +38,9 @@ export const nikTheme = {
     ...dashboard,
     ...navigationMenu,
     ...overlays,
+    ...button,
+    ...link,
+    ...kbd,
   },
   icon: {
     clientBundle: {
@@ -46,3 +52,4 @@ export const nikTheme = {
 } satisfies NuxtUIOptions
 
 export { icon }
+export { nikProps } from './props.js'

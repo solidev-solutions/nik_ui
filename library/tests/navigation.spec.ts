@@ -1,18 +1,8 @@
 import type { Locator, Page } from '@playwright/test'
 
-import { expect, openMenu, test } from './library.ts'
+import { color, expect, openMenu, test } from './library.ts'
 
 const rail = (page: Page) => page.getByRole('complementary', { name: 'NichtImKopf UI' })
-
-/** What a color role of the theme comes to in the page. */
-const color = (page: Page, role: string) =>
-  page.evaluate((role) => {
-    const probe = document.body.appendChild(document.createElement('span'))
-    probe.style.color = `var(${role})`
-    const { color } = getComputedStyle(probe)
-    probe.remove()
-    return color
-  }, role)
 
 async function expectDestinations(within: Locator) {
   const links = within.getByRole('link')
@@ -75,6 +65,23 @@ test.describe('in the dark theme', () => {
     await expect(tooltip).toBeVisible()
     await expect(tooltip).toHaveCSS('background-color', await color(page, '--ui-bg-raised'))
   })
+})
+
+// Of the theme's prop defaults the library shows this one at work: the rail's tooltips have no
+// delay by Nuxt UI's own doing, and the library's only slideover is the menu.
+test('a rail entry that takes the focus without a key shows no tooltip', async ({ page }) => {
+  await page.goto('/')
+  // A focus that a script sets counts as the kind of focus before it: here a click's, which no
+  // key brought.
+  await rail(page).getByRole('link', { name: 'home' }).click()
+  const entry = rail(page).getByRole('link', { name: 'Foundation' })
+  await entry.focus()
+  await expect(entry).toBeFocused()
+  await expect(page.getByRole('tooltip')).toHaveCount(0)
+
+  await page.keyboard.press('Shift+Tab')
+  await page.keyboard.press('Tab')
+  await expect(page.getByRole('tooltip', { name: 'Foundation' })).toBeVisible()
 })
 
 test('below 1024 px the menu offers the same destinations and closes once one is chosen', async ({

@@ -270,6 +270,7 @@
   --background-color-selected: var(--ui-bg-selected);
   --background-color-raised: var(--ui-bg-raised);
   --background-color-overlay: var(--ui-bg-overlay);
+  --text-decoration-color-dimmed: var(--ui-text-dimmed);
   --color-category-neutral-surface: var(--ui-category-neutral);
   --color-category-neutral-hover: var(--ui-category-neutral-hover);
   --color-category-rose: oklch(var(--ui-category-text) 15);

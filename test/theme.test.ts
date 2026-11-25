@@ -172,6 +172,27 @@ test('the stylesheet and the script carry the navigation menu’s override', () 
   expect(script).toContain('hover:before:bg-hover')
 })
 
+test('the stylesheet and the script carry the overrides of button, link and kbd', () => {
+  // Of each a class that nothing else names.
+  for (const name of [
+    'active:not-disabled:not-aria-disabled:not-aria-[haspopup]:[transform:translateY(1px)]',
+    'decoration-dimmed',
+    'normal-case',
+  ]) {
+    expect(css).toContain(selector(name))
+  }
+  expect(script).toContain('[transform:translateY(1px)]')
+  expect(script).toContain('decoration-dimmed')
+  // The script holds the kbd's class a second time, in the list that tells conflicting classes
+  // apart: the pattern is that of the configuration.
+  expect(script).toMatch(/\bkbd:\s*\{\s*base:\s*["'`]normal-case["'`]/)
+})
+
+test('the script carries the prop defaults the app hands to UTheme', () => {
+  expect(script).toMatch(/slideover:\s*\{\s*inset:\s*(!0|true)\s*\}/)
+  expect(script).toMatch(/tooltip:\s*\{\s*delayDuration:\s*300\b/)
+})
+
 test('with component detection Nuxt UI keeps the looks of the components the kit renders', () => {
   // Detection is at work: the looks of the components nothing renders are left out.
   expect(detectingCss.length).toBeLessThan(css.length)
@@ -184,4 +205,27 @@ test('a tooltip and its arrow are of the raised surface', () => {
     content: 'bg-raised',
     arrow: 'fill-(--ui-bg-raised)',
   })
+})
+
+// What no page of the library shows yet: the looks as the theme hands them to Nuxt UI.
+test('the theme narrows a square button’s padding to icons, darkens a status’s soft label and frees a header’s title of the underline', () => {
+  const { button, header, slideover } = nikTheme.ui
+  const square = button.compoundVariants.filter((entry) => 'square' in entry)
+  expect(square.every((entry) => 'leading' in entry || 'trailing' in entry)).toBe(true)
+  for (const [color, text] of [
+    ['error', 'text-error-text'],
+    ['success', 'text-success-dark'],
+    ['warning', 'text-warning-dark'],
+    ['info', 'text-info-dark'],
+  ]) {
+    expect(button.compoundVariants).toContainEqual({
+      color,
+      variant: ['soft', 'subtle'],
+      class: text,
+    })
+  }
+  expect(header.slots.title).toBe('no-underline')
+  expect(slideover.compoundVariants.map((entry) => entry.side)).toEqual(
+    expect.arrayContaining(['bottom', 'top']),
+  )
 })
