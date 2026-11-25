@@ -2,7 +2,8 @@ version = 1
 
 # Configuration, project text, the library and the tests belong to this repository as a whole. A
 # file in src/ is not listed here: it names its copyright holders and its license in its first
-# lines, so a port carries the name of its original.
+# lines, so a port carries the name of its original. So does an example of the library that is
+# ported: its own lines stand in place of what is given here.
 [[annotations]]
 path = ["*", ".github/**", ".claude/**", "library/**", "test/**"]
 SPDX-FileCopyrightText = "2026 Solidev - Thomas Liska"

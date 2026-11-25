@@ -1,6 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 
 import { AREAS, LIBRARY } from '../src/areas.ts'
+import { FAMILIES } from '../src/areas/components/families.ts'
 import { SECTIONS } from '../src/areas/foundation/sections.ts'
 import { content, expect, openMenu, pages, showWhole, test } from './library.ts'
 
@@ -15,6 +16,11 @@ const heads = [
     path: `/foundation/${section.id}`,
     title: section.label,
     documentTitle: `${section.label} · Foundation · ${LIBRARY}`,
+  })),
+  ...FAMILIES.map((family) => ({
+    path: `/components/${family.id}`,
+    title: family.label,
+    documentTitle: `${family.label} · Components · ${LIBRARY}`,
   })),
 ]
 

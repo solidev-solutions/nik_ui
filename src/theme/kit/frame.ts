@@ -10,6 +10,8 @@ export const framePanel = {
   base: 'relative grow overflow-hidden rounded-lg border border-default bg-default bg-clip-padding p-4',
 }
 
+export const frameHeader = { base: 'flex flex-col px-4 py-2' }
+
 export const frameFooter = { base: 'flex flex-col gap-1 px-4 py-2' }
 
 export const frameTitle = { base: 'wrap-anywhere text-sm font-semibold text-highlighted' }

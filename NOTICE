@@ -27,9 +27,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ReUI (https://github.com/keenthemes/reui)
-The frame parts (Frame, FramePanel, FrameFooter, FrameTitle, FrameDescription) with their look
-(theme/kit/frame) are ported from ReUI's Frame, and IconStack with its look (theme/kit/icon-stack)
-from its Icon Stack. ReUI's license:
+The frame parts (Frame, FrameHeader, FramePanel, FrameFooter, FrameTitle, FrameDescription) with
+their look (theme/kit/frame) are ported from ReUI's Frame, and IconStack with its look
+(theme/kit/icon-stack) from its Icon Stack. In the library, which the package does not hold, an
+example whose first lines name Keenthemes Inc is ported from ReUI's examples. ReUI's license:
 
 MIT License
 
