@@ -69,3 +69,35 @@ test('beside the navigation a card keeps its art whole and its row full', async 
     expect(last.x + last.width).toBeCloseTo(x + width, 0)
   }
 })
+
+test('at the foot of a Foundation page stand the ways to the pages beside it', async ({ page }) => {
+  await page.goto('/foundation/palettes')
+  const ways = page.getByRole('navigation', { name: 'Previous and next page' })
+  await expect(ways.getByRole('link')).toHaveText(['Roles'])
+  await expect(ways.getByRole('link')).toHaveAccessibleName('Next: Roles')
+  expect(await ways.evaluate((nav) => nav === nav.closest('main')!.lastElementChild)).toBe(true)
+
+  await ways.getByRole('link').click()
+  await expect(page).toHaveURL('/foundation/roles')
+  await expect(ways.getByRole('link')).toHaveAccessibleName('Previous: Palettes')
+})
+
+// The router takes the address with a slash at its end for the same page.
+test('a page is known by its route, not by how its address is written', async ({ page }) => {
+  await page.goto('/foundation/roles/')
+  const ways = page.getByRole('navigation', { name: 'Previous and next page' })
+  await expect(ways.getByRole('link')).toHaveAccessibleName('Previous: Palettes')
+})
+
+// A main action is 40 px tall on a phone and 32 px elsewhere.
+for (const { width, height } of [
+  { width: 390, height: 40 },
+  { width: 1280, height: 32 },
+]) {
+  test(`at ${width} px a way to a page beside this one is ${height} px tall`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 844 })
+    await page.goto('/foundation/palettes')
+    const way = page.getByRole('navigation', { name: 'Previous and next page' }).getByRole('link')
+    await expect(way).toHaveCSS('height', `${height}px`)
+  })
+}
