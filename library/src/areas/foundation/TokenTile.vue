@@ -2,14 +2,14 @@
 import CopyButton from './CopyButton.vue'
 
 defineProps<{
-  /** The token's name as it stands under the thing itself. */
+  /** The token's name, under the thing itself where the tile holds it. */
   name: string
   /** One value, or one for each theme under the theme's name. */
   value: string | Record<string, string>
   /** What a press copies: the name as one types it in code. */
   copy: string
 }>()
-defineSlots<{ default: () => unknown }>()
+defineSlots<{ default?: () => unknown }>()
 </script>
 
 <template>

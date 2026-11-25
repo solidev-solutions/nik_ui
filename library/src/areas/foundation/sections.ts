@@ -37,6 +37,12 @@ export const GROUPS = [
         icon: 'i-hugeicons-layers-01',
         page: () => import('./ElevationSection.vue'),
       },
+      {
+        id: 'layout',
+        label: 'Layout',
+        icon: 'i-hugeicons-layout-01',
+        page: () => import('./LayoutSection.vue'),
+      },
     ],
   },
 ]
