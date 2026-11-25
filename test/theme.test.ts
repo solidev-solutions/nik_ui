@@ -188,6 +188,12 @@ test('the stylesheet and the script carry the overrides of button, link and kbd'
   expect(script).toMatch(/\bkbd:\s*\{\s*base:\s*["'`]normal-case["'`]/)
 })
 
+test('the stylesheet and the script carry the dashboard panel’s override', () => {
+  // A class that nothing else names.
+  expect(css).toContain(selector('scrollbar-gutter-both'))
+  expect(script).toContain('scrollbar-gutter-both')
+})
+
 test('the script carries the prop defaults the app hands to UTheme', () => {
   expect(script).toMatch(/slideover:\s*\{\s*inset:\s*(!0|true)\s*\}/)
   expect(script).toMatch(/tooltip:\s*\{\s*delayDuration:\s*300\b/)

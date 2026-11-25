@@ -1,6 +1,6 @@
 import { expect, test as base, type Page } from '@playwright/test'
 
-import { AREAS } from '../src/areas.ts'
+import { AREAS, LIBRARY } from '../src/areas.ts'
 
 export const pages = ['/', ...AREAS.map((area) => `/${area.id}`)]
 
@@ -33,10 +33,10 @@ export const color = (page: Page, role: string) =>
     return color
   }, role)
 
-/** Opens the menu that stands for rail and navigation below 1024 px. */
+/** Opens the menu that stands for rail and navigation below 1024 px, from the page's head. */
 export async function openMenu(page: Page) {
-  await page.getByRole('button', { name: 'Open sidebar' }).click()
-  return page.getByRole('dialog')
+  await page.getByRole('banner').getByRole('button', { name: 'Open sidebar' }).click()
+  return page.getByRole('dialog', { name: LIBRARY })
 }
 
 export { expect }

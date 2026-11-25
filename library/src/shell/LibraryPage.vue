@@ -1,12 +1,21 @@
 <script setup lang="ts">
-import UDashboardSidebarToggle from '@nuxt/ui/components/DashboardSidebarToggle.vue'
+import UDashboardNavbar from '@nuxt/ui/components/DashboardNavbar.vue'
+import UDashboardPanel from '@nuxt/ui/components/DashboardPanel.vue'
 
 defineProps<{ title: string }>()
+defineSlots<{ default?: () => unknown }>()
 </script>
 
 <template>
-  <main class="flex-1 p-4">
-    <UDashboardSidebarToggle />
-    <h1 class="text-base font-semibold">{{ title }}</h1>
-  </main>
+  <UDashboardPanel id="page">
+    <template #header>
+      <UDashboardNavbar as="header" :title="title" />
+    </template>
+
+    <template #body>
+      <main>
+        <slot />
+      </main>
+    </template>
+  </UDashboardPanel>
 </template>

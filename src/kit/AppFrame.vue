@@ -13,7 +13,7 @@ import { appFrame } from '../theme/kit/app-frame.js'
 import ResizeLine from './ResizeLine.vue'
 
 const props = defineProps<{
-  /** Names the rail. */
+  /** Names the rail, and the menu that stands for it below 1024 px. */
   label: string
   /** What the line between navigation and page does, shown once the pointer rests on it. */
   lineLabel: string
@@ -83,7 +83,7 @@ const followed = (event: MouseEvent) => {
           :default-size="208"
           :min-size="208"
           :max-size="360"
-          :menu="{ inset: false }"
+          :menu="{ inset: false, title: label }"
           :class="styles.navigation({ navigation: Boolean($slots.navigation) })"
           :ui="{ body: styles.navigationContent(), footer: styles.navigationContent() }"
         >

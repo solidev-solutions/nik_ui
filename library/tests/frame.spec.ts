@@ -34,11 +34,9 @@ test('the rail shows from 1024 px', async ({ page }) => {
 // Nuxt UI sizes its menu anew from 640 px, so the width is looked at on both sides of it.
 for (const width of [1023, 639]) {
   test(`at ${width} px the menu opens, 288 px wide, and closes again`, async ({ page }) => {
-    const menu = page.getByRole('dialog')
-
     await page.setViewportSize({ width, height: 768 })
     await page.goto('/')
-    await openMenu(page)
+    const menu = await openMenu(page)
     await expect(menu).toBeVisible()
     await expect(menu).toHaveCSS('width', '288px')
 

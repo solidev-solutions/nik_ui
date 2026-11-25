@@ -1,5 +1,6 @@
 import type { Locator, Page } from '@playwright/test'
 
+import { LIBRARY } from '../src/areas.ts'
 import { color, expect, openMenu, test } from './library.ts'
 
 const rail = (page: Page) => page.getByRole('complementary', { name: 'NichtImKopf UI' })
@@ -113,4 +114,39 @@ test('the menu closes where the window grows to 1024 px, and the page takes a cl
   await expect(page.getByRole('dialog')).toHaveCount(0)
   await rail(page).getByRole('link', { name: 'Components' }).click()
   await expect(page.getByRole('heading', { level: 1, name: 'Components' })).toBeVisible()
+})
+
+test('a change of page is announced by its title, the page of arrival is not', async ({ page }) => {
+  await page.goto('/foundation')
+  const announcer = page.getByRole('status')
+  // The page has arrived: only then would the line have been filled.
+  await expect(page.getByRole('heading', { level: 1, name: 'Foundation' })).toBeVisible()
+  await expect(announcer).toBeEmpty()
+
+  await rail(page).getByRole('link', { name: 'Components' }).click()
+  await expect(announcer).toHaveText(`Components · ${LIBRARY}`)
+
+  await rail(page).getByRole('link', { name: 'home' }).click()
+  await expect(announcer).toHaveText(LIBRARY)
+})
+
+test('a change of page from the menu is announced where a screen reader hears it', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1023, height: 768 })
+  await page.goto('/foundation')
+  await expect(page.getByRole('heading', { level: 1, name: 'Foundation' })).toBeVisible()
+  // Whether the line was open to a screen reader each time it got a text: an open dialog hides
+  // what is around it.
+  const heard = await page.evaluateHandle(() => {
+    const line = document.querySelector('[role=status]')!
+    const heard: boolean[] = []
+    new MutationObserver(() => {
+      if (line.textContent) heard.push(!line.closest('[aria-hidden=true]'))
+    }).observe(line, { childList: true, characterData: true, subtree: true })
+    return heard
+  })
+  const menu = await openMenu(page)
+  await menu.getByRole('link', { name: 'Components' }).click()
+  await expect.poll(() => heard.jsonValue()).toEqual([true])
 })
