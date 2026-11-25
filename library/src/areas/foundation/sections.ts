@@ -2,7 +2,14 @@
 export const GROUPS = [
   {
     label: 'Colors',
-    sections: [{ id: 'palettes', label: 'Palettes', icon: 'i-hugeicons-colors' }],
+    sections: [
+      {
+        id: 'palettes',
+        label: 'Palettes',
+        icon: 'i-hugeicons-colors',
+        page: () => import('./PalettesSection.vue'),
+      },
+    ],
   },
 ]
 
