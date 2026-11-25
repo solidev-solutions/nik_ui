@@ -8,6 +8,7 @@ import FrameFooter from '@nichtimkopf/ui/kit/FrameFooter.vue'
 import FramePanel from '@nichtimkopf/ui/kit/FramePanel.vue'
 import FrameTitle from '@nichtimkopf/ui/kit/FrameTitle.vue'
 import IconStack from '@nichtimkopf/ui/kit/IconStack.vue'
+import PageHead from '@nichtimkopf/ui/kit/PageHead.vue'
 import { icon, nikProps } from '@nichtimkopf/ui/theme'
 import UApp from '@nuxt/ui/components/App.vue'
 import UButton from '@nuxt/ui/components/Button.vue'
@@ -29,6 +30,10 @@ import UTheme from '@nuxt/ui/components/Theme.vue'
         <template #menu>Menu</template>
         <template #panel>Panel</template>
 
+        <PageHead title="Page" :parents="[{ label: 'Parent', to: '/' }]">
+          <template #leading><UButton label="Leading" /></template>
+          <template #right><UButton label="Right" /></template>
+        </PageHead>
         <main class="rounded-2xl bg-raised text-success-dark ring ring-field">
           <UButton label="Button" />
           <CatalogCard to="/" label="Card" description="One line" :icon="icon.home" />
