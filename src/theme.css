@@ -38,8 +38,10 @@
 }
 
 /* These rules sit outside Nuxt UI's layer: a role set here for the light theme holds in the dark
-   one too, unless it is set there as well. */
+   one too, unless it is set there as well. They name what Nuxt UI's own rule names, the host of a
+   shadow root among it: there Nuxt UI's values would stand alone. */
 :root,
+:host,
 .light {
   --ui-primary: var(--ui-color-primary-700);
 
@@ -170,7 +172,6 @@
   --color-error-lighter: var(--ui-error-lighter);
   --color-error-text: var(--ui-error-text);
   --ring-color-field: var(--ui-border-field);
-  --background-color-field: var(--ui-border-field);
   --background-color-hover: var(--ui-bg-hover);
   --background-color-selected: var(--ui-bg-selected);
   --background-color-raised: var(--ui-bg-raised);

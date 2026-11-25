@@ -26,12 +26,15 @@ test('the stylesheet carries every step of the walnut palette', () => {
 })
 
 test('the stylesheet carries the roles for the light and the dark theme', () => {
-  expect(css).toMatch(/:root,\s*\.light\s*\{[^}]*--ui-primary:\s*var\(--ui-color-primary-700\)/)
+  expect(css).toMatch(
+    /:root,\s*:host,\s*\.light\s*\{[^}]*--ui-primary:\s*var\(--ui-color-primary-700\)/,
+  )
   expect(css).toMatch(/\.dark\s*\{[^}]*--ui-primary:\s*var\(--ui-color-primary-400\)/)
 })
 
 test('Nuxt UI generates its classes for the theme’s aliases only', () => {
-  for (const alias of nikTheme.theme.colors) expect(css).toMatch(new RegExp(`\\.text-${alias}\\b`))
+  for (const alias of nikTheme.theme.colors)
+    expect(css).toMatch(new RegExp(`\\.text-${alias}(?![\\w-])`))
   expect(css).not.toContain('secondary')
 })
 

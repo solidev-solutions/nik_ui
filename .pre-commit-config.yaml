@@ -36,7 +36,7 @@ repos:
         language: system
         entry: npm run typecheck
         pass_filenames: false
-        files: '\.(vue|ts|mts|tsx)$'
+        files: '\.(vue|ts|mts|tsx)$|(^|/)tsconfig(\.[a-z]+)?\.json$'
 
       # Builds the package, checks what would be published and builds an app that has it installed.
       - id: package
@@ -44,7 +44,7 @@ repos:
         language: system
         entry: npm test
         pass_filenames: false
-        files: '^(src|test)/|^(package(-lock)?\.json|(build|vitest)\.config\.ts)$'
+        files: '^(src|test)/|^(package(-lock)?\.json|(build|vitest)\.config\.ts|tsconfig(\.[a-z]+)?\.json)$'
 
   - repo: local
     hooks:
