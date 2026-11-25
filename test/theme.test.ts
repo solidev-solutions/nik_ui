@@ -122,3 +122,9 @@ test('the script carries every icon of the registry', () => {
     expect(script).toContain(`"${name.replace('i-hugeicons-', '')}":{`)
   }
 })
+
+// A role the theme does not name keeps Nuxt UI's Lucide icon, which no build of an app with this
+// theme holds: it would be fetched from a server at the first sight.
+test('the script holds no icon role that Nuxt UI still names', () => {
+  expect(script).not.toMatch(/i-lucide-/)
+})
