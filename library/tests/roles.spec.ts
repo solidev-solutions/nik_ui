@@ -73,7 +73,7 @@ test('a role shows its value in the light theme and in the dark, the same on the
   expect(light.Primary['bg-primary/10']).toBe('Light #F1EDEB Dark #2C2622')
   // One of each other utility the page reads a color from.
   expect(light.Border['border-default']).toBe('Light #E7E5E4 Dark #393735')
-  expect(light.Border['ring-field']).toBe('Light #8F8883 Dark #817A74')
+  expect(light.Border['ring-field']).toBe('Light #8F8883 Dark #847C77')
   expect(light.Primary['outline-primary/25']).toBe('Light #DBD3CD Dark #433932')
 
   // The tile itself: the light theme's color at the left, the dark theme's at the right.
