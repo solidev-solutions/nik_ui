@@ -24,13 +24,19 @@ for (const { name, width, find } of buttons) {
     await page.goto('/')
     const button = find(page)
     await expect(button).toHaveCSS('border-radius', '10px')
+    // A place of its own by a translate, as a button has that is centered by half its height.
+    const { y } = (await button.boundingBox())!
+    const top = async () => (await button.boundingBox())!.y
+    await button.evaluate((placed: HTMLElement) => (placed.style.translate = '0 -4px'))
+    await expect.poll(top).toBeCloseTo(y - 4, 1)
 
     await button.hover()
     await expect(button).toHaveCSS('background-color', await color(page, '--ui-bg-hover'))
 
     await page.mouse.down()
     await expect(button).toHaveCSS('background-color', await color(page, '--ui-bg-selected'))
-    await expect(button).toHaveCSS('translate', '0px 1px')
+    // The press moves it down by 1 px from where it stands.
+    await expect.poll(top).toBeCloseTo(y - 3, 1)
     // Released beside the button, which makes no click of it.
     await page.mouse.move(0, 0)
     await page.mouse.up()

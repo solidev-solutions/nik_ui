@@ -8,8 +8,10 @@ export const { ui: button } = {
     button: {
       slots: {
         // A press moves the button down by 1 px. Not one that opens a menu or a popover: that opens
-        // on the release, against the button on its way back, and would jump 1 px after it.
-        base: 'disabled:opacity-50 aria-disabled:opacity-50 active:not-disabled:not-aria-disabled:not-aria-[haspopup]:translate-y-px motion-safe:transition-transform',
+        // on the release, against the button on its way back, and would jump 1 px after it. By a
+        // transform, which adds to a place the button has by a translate of its own: one centered
+        // by half its height stays there. The transition gives way to one a caller names.
+        base: 'disabled:opacity-50 aria-disabled:opacity-50 active:not-disabled:not-aria-disabled:not-aria-[haspopup]:[transform:translateY(1px)] transition-transform motion-reduce:transition-none',
       },
       // Nuxt UI sets an icon-only button's padding and the look of each color in compound
       // variants, and those outrank a plain variant: an entry below repeats the conditions of the
@@ -76,7 +78,13 @@ export const { ui: button } = {
           class: 'ring-default hover:bg-hover active:bg-selected',
         },
         { color: 'neutral', variant: 'ghost', class: 'hover:bg-hover active:bg-selected' },
-        { color: 'neutral', variant: ['outline', 'ghost'], active: true, class: 'bg-selected' },
+        // The fill of one that is on stays under the pointer.
+        {
+          color: 'neutral',
+          variant: ['outline', 'ghost'],
+          active: true,
+          class: 'bg-selected hover:bg-selected',
+        },
       ],
       defaultVariants: { color: 'neutral' },
     },
