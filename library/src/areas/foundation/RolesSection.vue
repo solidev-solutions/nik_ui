@@ -131,7 +131,7 @@ function columns(tiles: number, wide?: boolean) {
       :hint="hint"
     >
       <div class="flex flex-col gap-6">
-        <!-- Without the role a screen reader does not call a list without markers a list. -->
+        <!-- Without the role VoiceOver does not call a list without markers a list. -->
         <ul
           v-for="(row, at) in rows"
           :key="at"

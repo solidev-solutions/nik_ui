@@ -53,7 +53,7 @@ const REFERENCES = [
 
       <section class="flex flex-col gap-4">
         <h2 class="text-base font-semibold">Quick access</h2>
-        <!-- Without the role a screen reader does not call a list without markers a list. -->
+        <!-- Without the role VoiceOver does not call a list without markers a list. -->
         <ul role="list" class="grid gap-6 sm:grid-cols-2">
           <li v-for="area in AREAS" :key="area.id">
             <CatalogCard

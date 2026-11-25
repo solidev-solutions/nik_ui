@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 
 import { AREAS, LIBRARY } from '../src/areas.ts'
 import { SECTIONS } from '../src/areas/foundation/sections.ts'
-import { expect, openMenu, pages, showWhole, test } from './library.ts'
+import { content, expect, openMenu, pages, showWhole, test } from './library.ts'
 
 const heads = [
   { path: '/', title: LIBRARY, documentTitle: LIBRARY },
@@ -92,7 +92,7 @@ for (const path of pages) {
   test(`${path}: nothing scrolls sideways at 390 px`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 })
     await page.goto(path)
-    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+    await content(page, path)
     const sideways = await page.evaluate(() =>
       [...document.querySelectorAll('*')]
         .filter((element) => {
@@ -115,8 +115,7 @@ for (const colorScheme of ['light', 'dark'] as const) {
         await page.goto(path)
         const root = expect(page.locator('html'))
         await (colorScheme === 'dark' ? root : root.not).toContainClass('dark')
-        // A page's content may come in a file of its own.
-        await page.waitForLoadState('networkidle')
+        await content(page, path)
         await showWhole(page)
         const { violations } = await new AxeBuilder({ page }).analyze()
         expect(violations).toEqual([])

@@ -8,7 +8,14 @@ test('the Foundation page lists its pages as cards, each group under its heading
   const headings = await page
     .getByRole('heading')
     .evaluateAll((all) => all.map((heading) => `${heading.tagName} ${heading.textContent?.trim()}`))
-  expect(headings).toEqual(['H1 Foundation', 'H2 Colors', 'H3 Palettes', 'H3 Roles'])
+  expect(headings).toEqual([
+    'H1 Foundation',
+    'H2 Colors',
+    'H3 Palettes',
+    'H3 Roles',
+    'H2 Type and icons',
+    'H3 Typography',
+  ])
 })
 
 test('a card leads to its page, whose title is announced', async ({ page }) => {
@@ -79,14 +86,16 @@ test('at the foot of a Foundation page stand the ways to the pages beside it', a
 
   await ways.getByRole('link').click()
   await expect(page).toHaveURL('/foundation/roles')
-  await expect(ways.getByRole('link')).toHaveAccessibleName('Previous: Palettes')
+  // The page after it stands in the next group.
+  await expect(ways.getByRole('link').first()).toHaveAccessibleName('Previous: Palettes')
+  await expect(ways.getByRole('link').last()).toHaveAccessibleName('Next: Typography')
 })
 
 // The router takes the address with a slash at its end for the same page.
 test('a page is known by its route, not by how its address is written', async ({ page }) => {
   await page.goto('/foundation/roles/')
   const ways = page.getByRole('navigation', { name: 'Previous and next page' })
-  await expect(ways.getByRole('link')).toHaveAccessibleName('Previous: Palettes')
+  await expect(ways.getByRole('link').first()).toHaveAccessibleName('Previous: Palettes')
 })
 
 // A main action is 40 px tall on a phone and 32 px elsewhere.

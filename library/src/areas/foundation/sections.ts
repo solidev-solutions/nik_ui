@@ -17,6 +17,17 @@ export const GROUPS = [
       },
     ],
   },
+  {
+    label: 'Type and icons',
+    sections: [
+      {
+        id: 'typography',
+        label: 'Typography',
+        icon: 'i-hugeicons-text-font',
+        page: () => import('./TypographySection.vue'),
+      },
+    ],
+  },
 ]
 
 export const SECTIONS = GROUPS.flatMap((group) => group.sections)

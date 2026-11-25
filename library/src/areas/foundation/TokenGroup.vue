@@ -2,7 +2,7 @@
 defineProps<{
   title: string
   /** What holds for the whole group, in one sentence. */
-  hint: string
+  hint?: string
 }>()
 defineSlots<{ default: () => unknown }>()
 </script>
@@ -11,7 +11,7 @@ defineSlots<{ default: () => unknown }>()
   <section class="flex flex-col gap-4">
     <div class="flex flex-col gap-1">
       <h2 class="text-base font-semibold">{{ title }}</h2>
-      <p class="text-toned">{{ hint }}</p>
+      <p v-if="hint" class="text-toned">{{ hint }}</p>
     </div>
     <!-- The tokens lay themselves out by the width of the page's column, not of the window: the
          navigation beside the page takes from one and not from the other. -->

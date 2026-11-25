@@ -29,7 +29,7 @@ const PALETTES = Object.entries({ neutral, ...colors }).map(([color, palette]) =
       :hint="`The ${color} color.`"
     >
       <!-- As many of the eleven steps in a row as the page's column has room for. Without the
-           role a screen reader does not call a list without markers a list. -->
+           role VoiceOver does not call a list without markers a list. -->
       <ul role="list" class="grid grid-cols-4 gap-x-3 gap-y-6 @lg:grid-cols-6 @3xl:grid-cols-11">
         <li v-for="{ step, value } in steps" :key="step">
           <TokenTile :name="step" :value="value" :copy="`${color}-${step}`">
