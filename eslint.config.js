@@ -29,4 +29,25 @@ export default defineConfigWithVueTs(
       ],
     },
   },
+
+  {
+    name: 'nik/library-tests',
+    // Only the `test` of tests/library.ts fails on a request to another origin.
+    files: ['library/tests/**/*.ts'],
+    ignores: ['library/tests/library.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: '@playwright/test',
+              importNames: ['test', 'default'],
+              message: 'Take `test` from ./library.ts.',
+            },
+          ],
+        },
+      ],
+    },
+  },
 )

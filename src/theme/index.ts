@@ -4,6 +4,8 @@
 import type { NuxtUIOptions } from '@nuxt/ui/vite'
 
 import { dashboard } from './components/dashboard.js'
+import { navigationMenu } from './components/navigation-menu.js'
+import { overlays } from './components/overlays.js'
 import { sidebar } from './components/sidebar.js'
 import { icon, icons } from './icons.js'
 
@@ -31,6 +33,8 @@ export const nikTheme = {
     // types do not resolve, as in this package's build.
     ...sidebar,
     ...dashboard,
+    ...navigationMenu,
+    ...overlays,
   },
   icon: {
     clientBundle: {

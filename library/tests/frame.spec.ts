@@ -1,22 +1,23 @@
-import { expect, test } from '@playwright/test'
-
 import { development } from '../playwright.config.ts'
+import { expect, openMenu, pages, test } from './library.ts'
 
 test.describe('in development', () => {
   test.use({ baseURL: development })
 
-  test('the page loads without an error or a warning in the console', async ({ page }) => {
-    const messages: string[] = []
-    page.on('console', (message) => {
-      if (['error', 'warning'].includes(message.type())) messages.push(message.text())
-    })
-    page.on('pageerror', (error) => messages.push(error.message))
+  for (const path of pages) {
+    test(`${path} loads without an error or a warning in the console`, async ({ page }) => {
+      const messages: string[] = []
+      page.on('console', (message) => {
+        if (['error', 'warning'].includes(message.type())) messages.push(message.text())
+      })
+      page.on('pageerror', (error) => messages.push(error.message))
 
-    await page.goto('/')
-    await expect(page.getByRole('heading', { level: 1, name: 'NichtImKopf UI' })).toBeVisible()
-    await page.waitForLoadState('networkidle')
-    expect(messages).toEqual([])
-  })
+      await page.goto(path)
+      await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+      await page.waitForLoadState('networkidle')
+      expect(messages).toEqual([])
+    })
+  }
 })
 
 test('the rail shows from 1024 px', async ({ page }) => {
@@ -37,7 +38,7 @@ for (const width of [1023, 639]) {
 
     await page.setViewportSize({ width, height: 768 })
     await page.goto('/')
-    await page.getByRole('button', { name: 'Open sidebar' }).click()
+    await openMenu(page)
     await expect(menu).toBeVisible()
     await expect(menu).toHaveCSS('width', '288px')
 
