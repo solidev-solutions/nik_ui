@@ -25,6 +25,18 @@ test('the stylesheet carries every step of the walnut palette', () => {
   }
 })
 
+// A step between two that the status roles take: Tailwind's own would break the scale there.
+test('the palettes of the status colors are whole scales of their own', () => {
+  for (const [step, value] of [
+    ['green-100', '#d6f5e8'],
+    ['blue-600', '#3559e9'],
+    ['orange-700', '#ce5e12'],
+    ['red-800', '#ad1f2b'],
+  ]) {
+    expect(css).toMatch(new RegExp(`--color-${step}:\\s*${value}`, 'i'))
+  }
+})
+
 test('the stylesheet carries the roles for the light and the dark theme', () => {
   expect(css).toMatch(
     /:root,\s*:host,\s*\.light\s*\{[^}]*--ui-primary:\s*var\(--ui-color-primary-700\)/,

@@ -1,4 +1,5 @@
 /* SPDX-FileCopyrightText: 2026 Solidev - Thomas Liska */
+/* SPDX-FileCopyrightText: 2024 Doğukan Çavuş */
 /* SPDX-License-Identifier: MIT */
 
 /* Only the values that differ from Tailwind's and Nuxt UI's. */
@@ -17,23 +18,51 @@
   --color-walnut-900: oklch(31% 0.039 54deg);
   --color-walnut-950: oklch(21% 0.025 52deg);
 
-  /* Only the steps the status roles take, each in place of Tailwind's same step. */
+  /* The four palettes the status colors take, whole, in place of Tailwind's of the same names:
+     AlignUI's scales (see NOTICE). */
   --color-green-50: #e3f7ec;
+  --color-green-100: #d6f5e8;
   --color-green-200: #c2f5da;
+  --color-green-300: #84ebb4;
+  --color-green-400: #3ee089;
+  --color-green-500: #1fc16b;
   --color-green-600: #1daf61;
+  --color-green-700: #178c4e;
+  --color-green-800: #1a7544;
+  --color-green-900: #16643b;
   --color-green-950: #0b4627;
   --color-blue-50: #ebf1ff;
+  --color-blue-100: #d5e2ff;
   --color-blue-200: #c0d5ff;
+  --color-blue-300: #97baff;
+  --color-blue-400: #4d82ff;
   --color-blue-500: #335cff;
+  --color-blue-600: #3559e9;
+  --color-blue-700: #2547d0;
+  --color-blue-800: #1f3bad;
+  --color-blue-900: #182f8b;
   --color-blue-950: #122368;
   --color-orange-50: #fff3eb;
+  --color-orange-100: #ffe6d5;
   --color-orange-200: #ffd9c0;
+  --color-orange-300: #ffc197;
+  --color-orange-400: #ffa468;
   --color-orange-500: #fa7319;
+  --color-orange-600: #e16614;
+  --color-orange-700: #ce5e12;
+  --color-orange-800: #b75310;
+  --color-orange-900: #96440d;
   --color-orange-950: #71330a;
   --color-red-50: #ffebec;
+  --color-red-100: #ffd5d8;
   --color-red-200: #ffc0c5;
+  --color-red-300: #ff97a0;
+  --color-red-400: #ff6875;
   --color-red-500: #fb3748;
+  --color-red-600: #e93544;
   --color-red-700: #d02533;
+  --color-red-800: #ad1f2b;
+  --color-red-900: #8b1822;
   --color-red-950: #681219;
 }
 

@@ -16,7 +16,8 @@
     "./theme.css": "./dist/theme.css"
   },
   "files": [
-    "dist"
+    "dist",
+    "NOTICE"
   ],
   "sideEffects": [
     "*.css"

@@ -7,3 +7,11 @@ version = 1
 path = ["*", ".github/**", ".claude/**", "test/**"]
 SPDX-FileCopyrightText = "2026 Solidev - Thomas Liska"
 SPDX-License-Identifier = "MIT"
+
+# The notice names the copyright holders of what was ported. Override: their lines would otherwise
+# be read as the notice's own.
+[[annotations]]
+path = "NOTICE"
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Solidev - Thomas Liska"
+SPDX-License-Identifier = "MIT"
