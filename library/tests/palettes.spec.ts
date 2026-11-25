@@ -1,5 +1,3 @@
-import { readFileSync } from 'node:fs'
-
 import type { Page } from '@playwright/test'
 import tailwind from 'tailwindcss/colors'
 
@@ -31,25 +29,19 @@ const stone200 = (page: Page) => page.getByRole('button', { name: '200 #E7E5E4' 
 const toasts = (page: Page) =>
   page.getByRole('region', { name: 'Notifications' }).getByRole('listitem')
 
-// The test reads the theme as the page does, by another way: the stylesheet as it is written, and
-// Tailwind's own scale for a palette the theme defines no step of.
-test('the page shows each palette of the theme under its heading, with the steps the theme defines', async ({
+// Every palette of the theme is a whole scale: the steps are those of Tailwind's own.
+test('the page shows each palette of the theme under its heading, with its eleven steps', async ({
   page,
 }) => {
-  const css = readFileSync(new URL('../../src/theme.css', import.meta.url), 'utf8')
-  const defined = Object.values(nikTheme.ui.colors).map((palette) => {
-    const steps = [...css.matchAll(new RegExp(`--color-${palette}-(\\d+):`, 'g'))].map(
-      ([, step]) => step,
-    )
-    return [palette, steps.length ? steps : Object.keys(tailwind[palette as 'stone'])]
-  })
+  const scale = Object.keys(tailwind.stone)
+  const whole = Object.values(nikTheme.ui.colors).map((palette) => [palette, scale])
 
   await page.goto('/foundation/palettes')
   const steps = Object.entries(await shown(page)).map(([palette, tiles]) => [
     palette,
     Object.keys(tiles),
   ])
-  expect(Object.fromEntries(steps)).toEqual(Object.fromEntries(defined))
+  expect(Object.fromEntries(steps)).toEqual(Object.fromEntries(whole))
 })
 
 test('a step shows its value in hex, the same in the dark theme', async ({ page }) => {
@@ -126,12 +118,12 @@ test('a toast stands in the middle of the bottom edge, without a bar', async ({ 
   expect(await toast.getByRole('progressbar').count()).toBe(0)
 })
 
-// The steps that fit in one row there: eleven from 1440 px, six at 1024 px beside the navigation.
-for (const { width, fit } of [
-  { width: 1440, fit: 11 },
-  { width: 1024, fit: 6 },
+// Eleven steps in a row from 1440 px, six at 1024 px beside the navigation.
+for (const { width, columns } of [
+  { width: 1440, columns: 11 },
+  { width: 1024, columns: 6 },
 ]) {
-  test(`at ${width} px a palette of up to ${fit} steps reaches from one edge of the page’s column to the other`, async ({
+  test(`at ${width} px a palette’s steps stand ${columns} in a row, from one edge of the page’s column to the other`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 })
@@ -139,16 +131,16 @@ for (const { width, fit } of [
     const rows = page.getByRole('main').getByRole('list')
     await expect(rows).toHaveCount(Object.keys(nikTheme.ui.colors).length)
     const main = (await page.getByRole('main').boundingBox())!
-    let measured = 0
     for (const row of await rows.all()) {
-      if ((await row.getByRole('button').count()) > fit) continue
-      measured++
       const first = (await row.getByRole('button').first().boundingBox())!
-      const last = (await row.getByRole('button').last().boundingBox())!
+      const last = (await row
+        .getByRole('button')
+        .nth(columns - 1)
+        .boundingBox())!
+      expect(last.y).toBe(first.y)
       // The 32 px that the page keeps free at each side of its column.
       expect(first.x - main.x).toBe(32)
       expect(main.x + main.width - last.x - last.width).toBeCloseTo(32, 0)
     }
-    expect(measured).toBeGreaterThanOrEqual(4)
   })
 }
