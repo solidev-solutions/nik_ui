@@ -29,12 +29,21 @@ test('the document title follows the way back to the start page', async ({ page 
   await expect(page).toHaveTitle(LIBRARY)
 })
 
-// Both are the theme's: Nuxt UI's title is 14 px, and its head keeps 24 px at its sides from 640 px.
-test('the head shows its title at 16 px, 16 px from its edge', async ({ page }) => {
-  await page.goto('/foundation')
-  const head = page.getByRole('banner')
-  await expect(head.getByRole('heading', { level: 1 })).toHaveCSS('font-size', '16px')
-  await expect(head).toHaveCSS('padding-left', '16px')
+// Both are the theme's: Nuxt UI's title is 14 px, and its head does not keep the room for a
+// scrollbar that the body under it keeps.
+test('the head shows its title at 16 px and begins where the page’s body begins', async ({
+  page,
+}) => {
+  // Below 1024 px the library's content takes the body's whole width.
+  for (const width of [600, 800]) {
+    await page.setViewportSize({ width, height: 768 })
+    await page.goto('/foundation')
+    const head = page.getByRole('banner')
+    await expect(head.getByRole('heading', { level: 1 })).toHaveCSS('font-size', '16px')
+    const first = (await head.getByRole('button').first().boundingBox())!
+    const body = (await page.getByRole('main').boundingBox())!
+    expect(first.x).toBe(body.x)
+  }
 })
 
 // Nuxt UI makes a panel at least as tall as the screen, and the frame's card is shorter than that.

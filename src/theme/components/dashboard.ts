@@ -27,7 +27,11 @@ export const { ui: dashboard } = {
         body: 'scroll-py-4 scrollbar-gutter-both sm:scroll-py-6',
       },
     },
-    // The title would take the size around it, 14 px: a page's title is 16 px.
-    dashboardNavbar: { slots: { root: 'sm:px-4', title: 'text-base' } },
+    // The head begins where the body under it begins: with the body's padding from 640 px, and
+    // with the room the body keeps free for a scrollbar at both sides. The title would take the
+    // size around it, 14 px: a page's title is 16 px.
+    dashboardNavbar: {
+      slots: { root: 'overflow-hidden scrollbar-gutter-both sm:px-6', title: 'text-base' },
+    },
   },
 } satisfies NuxtUIOptions
