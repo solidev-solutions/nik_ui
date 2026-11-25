@@ -83,6 +83,6 @@ Pull requests target the `main` branch. Run `npm ci`, `pre-commit install` and `
 
 ## License
 
-[MIT](LICENSE). Copyright (c) 2026 Solidev - Thomas Liska and contributors. A file in `src/` that is ported from another project names that project's copyright holder in its first lines.
+[MIT](LICENSE). Copyright (c) 2026 Solidev - Thomas Liska and contributors. A file in `src/` that is ported from another project names that project's copyright holder in its first lines, and [NOTICE](NOTICE) lists them for the built package.
 
 The Inter font files in `src/fonts` are under the [SIL Open Font License 1.1](src/fonts/OFL.txt), whose text ships beside them.

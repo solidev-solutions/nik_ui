@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 
 import { AREAS, LIBRARY } from '../src/areas.ts'
-import { expect, openMenu, pages, test } from './library.ts'
+import { expect, openMenu, pages, showWhole, test } from './library.ts'
 
 const heads = [
   { path: '/', title: LIBRARY, documentTitle: LIBRARY },
@@ -85,6 +85,7 @@ for (const colorScheme of ['light', 'dark'] as const) {
         await page.goto(path)
         const root = expect(page.locator('html'))
         await (colorScheme === 'dark' ? root : root.not).toContainClass('dark')
+        await showWhole(page)
         const { violations } = await new AxeBuilder({ page }).analyze()
         expect(violations).toEqual([])
       })
