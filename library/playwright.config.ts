@@ -18,6 +18,8 @@ export default defineConfig({
       command:
         'npm run library:build && npx --no-install vite preview library --port 5732 --strictPort',
       port: 5732,
+      // The build is part of the start: on a machine under load it outlasts Playwright's 60 s.
+      timeout: 180_000,
     },
     { cwd, command: 'npx --no-install vite library --port 5733 --strictPort', port: 5733 },
   ],
