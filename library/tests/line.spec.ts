@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test'
 
-import { expect, test } from './library.ts'
+import { color, expect, test } from './library.ts'
 
 // The line between the Foundation's navigation and its page, from 1024 px.
 const open = 'Drag to resize. Click to collapse.'
@@ -46,6 +46,41 @@ test.describe('with reduced motion', () => {
     await page.goto('/foundation/palettes')
     await drag(page, 80)
     await expect(sidebar(page)).toHaveCSS('width', '288px')
+    await expect(navigation(page)).toBeVisible()
+  })
+
+  test('a press on the line that ends elsewhere is over: a later release on the line does nothing', async ({
+    page,
+  }) => {
+    await page.goto('/foundation/palettes')
+    const { x, y, width, height } = (await line(page).boundingBox())!
+    const [onLine, across] = [x + width / 2, y + height / 2]
+    // The navigation is at its least width: the line stays where it is while the pointer leaves it.
+    await page.mouse.move(onLine, across)
+    await page.mouse.down()
+    await page.mouse.move(onLine - 80, across, { steps: 4 })
+    // While its navigation is dragged the line keeps the primary color, away from the pointer too.
+    await expect(line(page)).toHaveCSS('background-color', await color(page, '--ui-primary'))
+    await page.mouse.up()
+
+    await page.mouse.move(onLine + 200, across)
+    await page.mouse.down()
+    await page.mouse.move(onLine, across, { steps: 4 })
+    await page.mouse.up()
+    await expect(sidebar(page)).toHaveCSS('width', '208px')
+  })
+
+  test('a drag that comes back to where it began does not fold the navigation', async ({
+    page,
+  }) => {
+    await page.goto('/foundation/palettes')
+    const { x, y, width, height } = (await line(page).boundingBox())!
+    const [onLine, across] = [x + width / 2, y + height / 2]
+    await page.mouse.move(onLine, across)
+    await page.mouse.down()
+    await page.mouse.move(onLine + 100, across, { steps: 4 })
+    await page.mouse.move(onLine, across, { steps: 4 })
+    await page.mouse.up()
     await expect(navigation(page)).toBeVisible()
   })
 })
