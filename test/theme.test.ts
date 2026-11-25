@@ -206,3 +206,26 @@ test('a tooltip and its arrow are of the raised surface', () => {
     arrow: 'fill-(--ui-bg-raised)',
   })
 })
+
+// What no page of the library shows yet: the looks as the theme hands them to Nuxt UI.
+test('the theme narrows a square button’s padding to icons, darkens a status’s soft label and frees a header’s title of the underline', () => {
+  const { button, header, slideover } = nikTheme.ui
+  const square = button.compoundVariants.filter((entry) => 'square' in entry)
+  expect(square.every((entry) => 'leading' in entry || 'trailing' in entry)).toBe(true)
+  for (const [color, text] of [
+    ['error', 'text-error-text'],
+    ['success', 'text-success-dark'],
+    ['warning', 'text-warning-dark'],
+    ['info', 'text-info-dark'],
+  ]) {
+    expect(button.compoundVariants).toContainEqual({
+      color,
+      variant: ['soft', 'subtle'],
+      class: text,
+    })
+  }
+  expect(header.slots.title).toBe('no-underline')
+  expect(slideover.compoundVariants.map((entry) => entry.side)).toEqual(
+    expect.arrayContaining(['bottom', 'top']),
+  )
+})

@@ -18,6 +18,17 @@ export const { ui: overlays } = {
           inset: true,
           class: { content: 'max-sm:inset-0 max-sm:w-full max-sm:rounded-none sm:max-w-136' },
         },
+        // One from the bottom or the top lies on that edge there, over the full width.
+        {
+          side: 'bottom',
+          inset: true,
+          class: { content: 'max-sm:inset-x-0 max-sm:bottom-0 max-sm:rounded-b-none' },
+        },
+        {
+          side: 'top',
+          inset: true,
+          class: { content: 'max-sm:inset-x-0 max-sm:top-0 max-sm:rounded-t-none' },
+        },
       ],
     },
   },

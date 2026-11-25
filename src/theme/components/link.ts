@@ -15,5 +15,7 @@ export const { ui: link } = {
         disabled: { true: 'opacity-50', false: 'hover:decoration-current' },
       },
     },
+    // The underline is for a link in running text. Nuxt UI sets its header's title as a link.
+    header: { slots: { title: 'no-underline' } },
   },
 } satisfies NuxtUIOptions

@@ -39,12 +39,18 @@ export const { ui: button } = {
           size: 'xl',
           class: { base: 'rounded-lg', leadingIcon: 'size-5', trailingIcon: 'size-5' },
         },
-        // An icon-only button keeps Nuxt UI's height although its icon is smaller.
-        { size: 'xs', square: true, class: 'p-1.5' },
-        { size: 'sm', square: true, class: 'p-1.75' },
-        { size: 'md', square: true, class: 'p-2' },
-        { size: 'lg', square: true, class: 'p-2.5' },
-        { size: 'xl', square: true, class: 'p-2.5' },
+        // An icon-only button keeps Nuxt UI's height although its icon is smaller. Only one with
+        // an icon: a square button with a label or an avatar has Nuxt UI's height as it is.
+        { size: 'xs', square: true, leading: true, class: 'p-1.5' },
+        { size: 'sm', square: true, leading: true, class: 'p-1.75' },
+        { size: 'md', square: true, leading: true, class: 'p-2' },
+        { size: 'lg', square: true, leading: true, class: 'p-2.5' },
+        { size: 'xl', square: true, leading: true, class: 'p-2.5' },
+        { size: 'xs', square: true, trailing: true, class: 'p-1.5' },
+        { size: 'sm', square: true, trailing: true, class: 'p-1.75' },
+        { size: 'md', square: true, trailing: true, class: 'p-2' },
+        { size: 'lg', square: true, trailing: true, class: 'p-2.5' },
+        { size: 'xl', square: true, trailing: true, class: 'p-2.5' },
         // Nuxt UI takes a fill back to 75 % under the pointer and the press: in the light theme the
         // label on the primary color falls from 7.4:1 to 4.0:1 there. At 90 % it keeps 5.8:1.
         { color: 'primary', variant: 'solid', class: 'hover:bg-primary/90 active:bg-primary/90' },
@@ -69,9 +75,12 @@ export const { ui: button } = {
           class: 'hover:text-warning/90 active:text-warning/90',
         },
         { color: 'error', variant: 'link', class: 'hover:text-error/90 active:text-error/90' },
-        // In the light theme the error color reads at 3.2:1 on its own soft fill, the error text
-        // at 4.6:1.
-        { color: 'error', variant: 'soft', class: 'text-error-text' },
+        // On its own soft fill a status's color reads below 4.5:1, in the light theme at 2.5:1 to
+        // 4.4:1: the label takes the status's dark text, the error's its text role.
+        { color: 'error', variant: ['soft', 'subtle'], class: 'text-error-text' },
+        { color: 'success', variant: ['soft', 'subtle'], class: 'text-success-dark' },
+        { color: 'warning', variant: ['soft', 'subtle'], class: 'text-warning-dark' },
+        { color: 'info', variant: ['soft', 'subtle'], class: 'text-info-dark' },
         {
           color: 'neutral',
           variant: 'outline',
