@@ -42,7 +42,7 @@ export default defineConfigWithVueTs(
           paths: [
             {
               name: '@playwright/test',
-              importNames: ['test'],
+              importNames: ['test', 'default'],
               message: 'Take `test` from ./library.ts.',
             },
           ],

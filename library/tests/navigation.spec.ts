@@ -56,6 +56,11 @@ test('a click on an area opens its page and marks the area as the current one', 
   await expect(page.getByRole('heading', { level: 1, name: 'Components' })).toBeVisible()
   await expect(area).toHaveAttribute('aria-current', 'page')
   await expect(rail(page).locator('[aria-current]')).toHaveCount(1)
+  // The current area's fill is the theme's: Nuxt UI sets its own in a variant that outranks a
+  // plain one.
+  await expect
+    .poll(() => area.evaluate((link) => getComputedStyle(link, '::before').backgroundColor))
+    .toBe(await color(page, '--ui-bg-selected'))
 })
 
 test.describe('in the dark theme', () => {
@@ -83,6 +88,11 @@ test('below 1024 px the menu offers the same destinations and closes once one is
   await menu.getByRole('link', { name: 'Foundation' }).click()
   await expect(menu).toBeHidden()
   await expect(page.getByRole('heading', { level: 1, name: 'Foundation' })).toBeVisible()
+
+  // Also for the destination a reader is on already, where no page changes.
+  const again = await openMenu(page)
+  await again.getByRole('link', { name: 'Foundation', exact: true }).click()
+  await expect(again).toBeHidden()
 })
 
 test('the menu closes where the window grows to 1024 px, and the page takes a click again', async ({

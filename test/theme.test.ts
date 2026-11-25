@@ -178,3 +178,10 @@ test('with component detection Nuxt UI keeps the looks of the components the kit
   // The dashboard sidebar's width, a class of its own look.
   expect(detectingCss).toContain(selector('w-(--width)'))
 })
+
+test('a tooltip and its arrow are of the raised surface', () => {
+  expect(nikTheme.ui.tooltip.slots).toEqual({
+    content: 'bg-raised',
+    arrow: 'fill-(--ui-bg-raised)',
+  })
+})
